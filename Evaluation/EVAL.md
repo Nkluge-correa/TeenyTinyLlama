@@ -55,13 +55,13 @@ The results of models marked with an "*" were extracted from the [Open LLM Leade
 
 ## Fine-Tuning Comparisons
 
-To further evaluate the downstream capabilities of our models, we decided to employ a basic fine-tuning procedure of our TTL pair on a subset of tasks of the Poeta benchmark. We apply the same procedure for comparison purposes on both [BERTimbau](https://huggingface.co/neuralmind/bert-base-portuguese-cased) models, given that they are also LLM trained from scratch in Brazilian Portuguese and have a similar size range to our models. We used these comparisons to assess if our pre-training runs produced LLM capable of producing good results ("good" here means "close to BERTimbau") when utilized for downstream applications.
+To further evaluate the downstream capabilities of our models, we decided to employ a basic fine-tuning procedure for our TTL pair on a subset of tasks from the Poeta benchmark. We apply the same procedure for comparison purposes on both [BERTimbau](https://huggingface.co/neuralmind/bert-base-portuguese-cased) models, given that they are also LLM trained from scratch in Brazilian Portuguese and have a similar size range to our models. We used these comparisons to assess if our pre-training runs produced LLM capable of producing good results ("good" here means "close to BERTimbau") when utilized for downstream applications.
 
-| Models             | IMDB   | FaQuAD-NLI | HateBr | Assin2 | AgNews | Average |
-|--------------------|--------|------------|--------|--------|--------|---------|
-| BERTimbau-large    | **93.58** | 92.26 | 91.57 | **88.97** | 94.11 | 92.10   |
-| BERTimbau-small    | 92.22  | **93.07** | 91.28 | 87.45  | 94.19 | 91.64   |
-| **TTL-460m**       | 91.64  | 91.18      | **92.28** | 86.43  | **94.42** | 91.19 |
-| **TTL-160m**       | 91.14  | 90.00      | 90.71  | 85.78  | 94.05 | 90.34   |
+| Models          | IMDB      | FaQuAD-NLI | HateBr    | Assin2    | AgNews    | Average |
+|-----------------|-----------|------------|-----------|-----------|-----------|---------|
+| BERTimbau-large | **93.58** | 92.26      | 91.57     | **88.97** | 94.11     | 92.10   |
+| BERTimbau-small | 92.22     | **93.07**  | 91.28     | 87.45     | 94.19     | 91.64   |
+| **TTL-460m**    | 91.64     | 91.18      | **92.28** | 86.43     | **94.42** | 91.19   |
+| **TTL-160m**    | 91.14     | 90.00      | 90.71     | 85.78     | 94.05     | 90.34   |
 
 All the shown results are the higher accuracy scores achieved on the respective task test sets after fine-tuning the models on the training sets. All fine-tuning runs used the same hyperparameters, and the code implementation can be found in the [model cards](https://huggingface.co/nicholasKluge/TeenyTinyLlama-460m-HateBR) of our fine-tuned models.
