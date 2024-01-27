@@ -1,0 +1,67 @@
+model_args:
+  model_to_train: "nicholasKluge/TeenyTinyLlama-160m"
+  tokenizer_name: "nicholasKluge/TeenyTinyLlama-160m"
+  model_id: "460m"
+  train_from_scratch: true
+  vocab_size: 32000
+  hidden_size: 1024
+  intermediate_size: 4096
+  max_position_embeddings: 2048
+  num_attention_heads: 16
+  num_hidden_layers: 24
+  num_key_value_heads: 16
+  output_hidden_states: false
+  cache_dir: null
+  use_fast_tokenizer: true
+  model_revision: "main"
+  trust_remote_code: false
+  torch_dtype: "auto"
+  low_cpu_mem_usage: null
+  use_cache: true
+  attn_implementation: null
+data_args:
+  dataset_name: "nicholasKluge/Pt-Corpus"
+  folder_path: "/data/Pt-Corpus-Instruct-tokenized-large/"
+  dataset_split: "train"
+  block_size: 2048
+  overwrite_cache: false
+  preprocessing_num_workers: null
+  sanity_check: false
+training_args:
+  output_dir: "checkpoints"
+  do_train: true
+  do_eval: true
+  evaluation_strategy: "step"
+  eval_steps: 100000
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 2
+  learning_rate: 0.0003
+  adam_epsilon: 0.00000001
+  weight_decay: 0.01
+  lr_scheduler_type: "cosine"
+  warmup_steps: 10000
+  max_steps: null
+  num_train_epochs: 2
+  gradient_checkpointing: false
+  seed: 42
+  dataloader_pin_memory: true
+  push_to_hub: true
+  resume_from_checkpoint: null
+  hub_model_id: "nicholasKluge/TeenyTinyLlama-460m"
+  hub_token: null
+extra_args:
+  wandb_token: null
+  logger_name: "TeenyTinyLlama"
+  wandb_log_steps: 1
+  mixed_precision: 'no'
+  checkpointing_steps: 25000
+  sample_every: 25000
+  generation_seeds:
+    - "Meu nome é Nicholas e eu estudo na PUCRS, uma universidade privada de Porto Alegre, Rio Grande do Sul, Brasil. A PUCRS é"
+    - "O Brasil é um país que possui muitas belezas naturais, como as cataratas do Iguaçu, o Cristo Redentor e o Pão de Açúcar. O Brasil também é conhecido por"
+    - "Modelos de linguagem são muito úteis para gerar texto. Eles podem ser usados para gerar textos de diversos tipos, como"
+    - "A aprendizagem de máquina é um campo da ciência da computação que estuda como os computadores podem aprender a fazer coisas sem serem explicitamente programados, como, por exemplo,"
+    - "Como diversos outros países da América Latina, o Brasil é um país que possui uma grande diversidade cultural. Por exemplo, o Brasil possui"
+    - "A Filosofia é o estudo de questões fundamentais, como a existência, o conhecimento, a verdade, a moral, a beleza, a mente e a linguagem. Muitos dizem que o estudo da Filosofia é importante porque"
+    - "A capital do Brazil é Brasília. Brasília foi construída na segunda metade da década de 1950, durante o governo de Juscelino Kubitschek. Brasília é conhecida por"

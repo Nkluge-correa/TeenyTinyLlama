@@ -1,0 +1,5 @@
+Steps,Evaluation Loss,Perplexity,Total Energy Consumption (kWh),Emissions (KgCO2eq)
+100000,3.19,24.52,3.75,1.28
+200000,3.02,20.58,7.51,2.56
+300000,2.83,16.98,11.25,3.84
+400000,2.79,16.41,14.52,5.11

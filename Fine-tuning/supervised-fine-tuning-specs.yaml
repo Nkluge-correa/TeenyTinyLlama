@@ -1,0 +1,45 @@
+model_args:
+  base_model: "nicholasKluge/TeenyTinyLlama-460m"
+  model_id: "460m"
+  use_fast: true
+  output_hidden_states: false
+  cache_dir: null
+  model_revision: "main"
+  trust_remote_code: false
+  low_cpu_mem_usage: false
+  boi_token: "<instruction>"
+  eoi_token: "</instruction>"
+  chat_template: "{{bos_token}}{% for message in messages %}{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}{% endif %}{% if message['role'] == 'user' %}{{ '<instruction>' + message['content'].strip() + '</instruction>'}}{% elif message['role'] == 'assistant' %}{{ message['content'].strip() + eos_token}}{% else %}{{ raise_exception('Only user and assistant roles are supported!') }}{% endif %}{% endfor %}"
+  attn_implementation: "flash_attention_2"
+data_args:
+    dataset_name: "nicholasKluge/instruct-aira-dataset-v2"
+    dataset_split: "portuguese"
+    validation_split_percentage: 0.1
+    max_length: 2048
+    preprocessing_num_workers: null
+    sanity_check: false
+training_args:
+  output_dir: "checkpoints"
+  num_train_epochs: 3
+  do_train: true
+  do_eval: true
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: false
+  weight_decay: 0.01
+  learning_rate: 0.00001
+  adam_epsilon: 0.00000001
+  lr_scheduler_type: "cosine"
+  warmup_steps: 1000
+  seed: 42
+  dataloader_pin_memory: true
+  hub_token: null
+  push_to_hub: true
+  hub_model_id: "nicholasKluge/TeenyTinyLlama-460m-Chat"
+extra_args:
+  logger_name: "TeenyTinyLlama"
+  wandb_token: null
+  wandb_log_steps: 1
+  sample_every: 5000
+  mixed_precision: 'no'

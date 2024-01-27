@@ -1,0 +1,11 @@
+transformers==4.38.0.dev0
+torch==2.1.0+cu121
+pyyaml==6.0.1
+datasets==2.16.1
+wandb==0.16.2
+codecarbon==2.3.3
+huggingface_hub==0.20.2
+accelerate==0.26.1
+sentencepiece==0.1.99
+flash-attn==2.5.0
+autoawq==0.1.7
