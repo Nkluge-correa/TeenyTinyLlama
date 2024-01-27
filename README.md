@@ -46,6 +46,8 @@ All requirements are listed in the requirements.txt file (Python version: 3.10.1
 
 - **Pre-training:** The Pre-training folder contains two main scripts: [`pre-training.py`](Pre-training/pre-training.py) and [`train-sentencepiece.py`](Pre-training/train-sentencepiece.py). These scripts were used to train both the Sentencepience tokenizer and the models. You can find more information on how to run them [here](Pre-training/README.md).
 
+- **Fine-tuning:** The Fine-tuning folder contains the [`supervised-fine-tuning.py`](Fine-tuning/supervised-fine-tuning.py) script. This script is used to fine-tune the 460m version of our models on the [Instruct-Aira Dataset version 2.0](https://huggingface.co/datasets/nicholasKluge/instruct-aira-dataset-v2). You can find more information on how to run them [here](Fine-tuning/README.md).
+
 - **Evaluation:** The Evaluation folder contains the results of our evaluations ([EVAL.md](Evaluation/EVAL.md)). It also contains an `evaluation.py` script to allow you to evaluate any of the checkpoints of our models or models you might come to train. The `lm-evaluation-harness-pt.ipynb` notebook showcases how to evaluate a model on the [Laiviet](https://github.com/laiviet/lm-evaluation-harness) version of the [`LM-Evaluation-Harness`](https://github.com/EleutherAI/lm-evaluation-harness). You can find more information on how to run them [here](Evaluation/README.md).
 
 - **Utilities:** The Utilities folder contains some auxiliary scripts (more information available [here](Utilities/README.md)):

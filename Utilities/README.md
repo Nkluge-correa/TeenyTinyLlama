@@ -1,5 +1,7 @@
 # Running the Utilities
 
+Documentation on how to run the utility scripts.
+
 ## Chinchilla Estimation
 
 The `chinchilla-estimation.py` will estimate your model's training using the [Chinchilla paper](https://arxiv.org/abs/2203.15556) as a reference. You must change the `N` and `D` parameters and run the script to see the estimations. The `calculate_loss` function estimates the foreseen loss for a language model of size `N` trained on a size `D` dataset.

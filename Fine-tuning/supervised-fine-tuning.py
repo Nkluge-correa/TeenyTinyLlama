@@ -1,3 +1,10 @@
+# For distributed training, run this script using `accelerate`:
+#
+# accelerate launch --num_processes=4 supervised-fine-tuning.py --spec-file specs.yaml
+#
+# This will launch 4 processes on the current node, each with 1 GPU device per process.
+# More information can be found here: https://huggingface.co/docs/accelerate/basic_tutorials/launch
+# This scritp is based on the `run_clm_no_trainer.py` script from the transformers library: https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm_no_trainer.py
 import os
 import sys
 import time

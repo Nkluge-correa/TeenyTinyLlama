@@ -11,16 +11,7 @@ class ModelArguments:
         default=None,
         metadata={
             "help": (
-                "The base model to use for training."
-            )
-        },
-    )
-
-    model_ref: Optional[str] = field(
-        default=None,
-        metadata={
-            "help": (
-                "The reference model to used for DPO training."
+                "The base model to use in the fine-tuning."
             )
         },
     )
@@ -175,9 +166,4 @@ class ExtraArguments:
     mixed_precision: Optional[str] = field(
         default='no',
         metadata={"help": "Whether to use mixed precision or not ('no', 'fp16')."},
-    )
-
-    beta: Optional[float] = field(
-        default=0.1,
-        metadata={"help": "The beta value for DPO training."},
     )
