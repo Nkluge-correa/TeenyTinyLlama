@@ -1,9 +1,9 @@
-<h2 style="text-align:center"> Worldwide AI Ethics: a review of 200 guidelines and recommendations for AI governance </h2>
+<h2 style="text-align:center"> TeenyTinyLlama: a pair of open-source <i>tiny</i> language models trained in Brazilian Portuguese </h2>
 
-The utilization of artificial intelligence (AI) applications has experienced tremendous growth in recent years, bringing forth numerous benefits and conveniences. However, this expansion has also provoked ethical concerns, such as privacy breaches, algorithmic discrimination, security and reliability issues, transparency, and other unintended consequences. To determine whether a global consensus exists regarding the ethical principles that should govern AI applications and to contribute to the formation of future regulations, this paper conducts a meta-analysis of 200 governance policies and ethical guidelines for AI usage published by public bodies, academic institutions, private companies, and civil society organizations worldwide. We identified at least 17 resonating principles prevalent in the policies and guidelines of our dataset, released as an open-source database and tool. We present the limitations of performing a global scale analysis study paired with a critical analysis of our findings, presenting areas of consensus that should be incorporated into future regulatory efforts.
+Large language models (LLMs) have significantly advanced natural language processing, but their progress has yet to be equal across languages. While most LLMs are trained in high-resource languages like English, multilingual models generally underperform monolingual ones. Additionally, aspects of their multilingual foundation sometimes restrict the byproducts they produce, like computational demands and licensing regimes. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits. These are the <i>TeenyTinyLlama</i> pair: two compact models for Brazilian Portuguese text generation. We release them under the permissive Apache 2.0 license on GitHub and Hugging Face for community use and further development.
 
 <p style="text-align: center;">
-<a href="https://doi.org/10.1016/j.patter.2023.100857" target="_blank">Full article here.</a>
+<a href="https://arxiv.org/abs/xxx.xxx" target="_blank">Full article here.</a>
 </p>
 
 <h3 style="text-align: center;">Website License</h3>
