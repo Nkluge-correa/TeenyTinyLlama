@@ -1,4 +1,4 @@
-<h2 style="text-align:center"> TeenyTinyLlama: a pair of open-source <i>tiny</i> language models trained in Brazilian Portuguese </h2>
+<h2 style="text-align:center"> TeenyTinyLlama: open-source <i>tiny</i> language models trained in Brazilian Portuguese </h2>
 
 Large language models (LLMs) have significantly advanced natural language processing, but their progress has yet to be equal across languages. While most LLMs are trained in high-resource languages like English, multilingual models generally underperform monolingual ones. Additionally, aspects of their multilingual foundation sometimes restrict the byproducts they produce, like computational demands and licensing regimes. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits. These are the <i>TeenyTinyLlama</i> pair: two compact models for Brazilian Portuguese text generation. We release them under the permissive Apache 2.0 license on GitHub and Hugging Face for community use and further development.
 

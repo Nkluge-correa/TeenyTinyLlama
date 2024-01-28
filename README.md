@@ -1,4 +1,4 @@
-# TeenyTinyLlama: a pair of open-source _tiny_ language models trained in Brazilian Portuguese
+# TeenyTinyLlama: open-source _tiny_ language models trained in Brazilian Portuguese
 
 <p align="center">
     <a href="https://www.raies.org" target="_blank">
@@ -63,7 +63,7 @@ In the `img` folder, you will find a subfolder named `logs and plots`. In it, yo
 ```latex
 
 @misc{correa24ttllama,
-  title = {TeenyTinyLlama: a pair of open-source tiny language models trained in Brazilian Portuguese},
+  title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
   author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
   journal={arXiv},
   year = {2024},
