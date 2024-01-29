@@ -56,7 +56,7 @@ All requirements are listed in the requirements.txt file (Python version: 3.10.1
   - `quantize.py` will perform 4-bit AWQ quantization on the models.
   - `tokenize-dataset.py` will create a tokenized version of a text dataset and upload it to the Hugging Face Hub.
 
-In the `img` folder, you will find a subfolder named `logs and plots`. In it, you can find all the logs and plots (and the [script](img\logs and plots\make-plots.py) used to make the plots) we used in our preprint.
+In the `img` folder, you will find a subfolder named `logs and plots`. In it, you can find all the logs and plots (and the script used to make the plots) we used in our preprint.
 
 ## Cite as 🤗
 
