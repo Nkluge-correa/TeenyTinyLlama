@@ -24,12 +24,12 @@ training_loss_460m = df_460m_train.smoothed_loss.values
 plt.figure(figsize=(15, 8))
 
 # Add training loss lines
-plt.plot(steps_160m, training_loss_160m, label='TTL-160m', color=(0.0, 0.8, 0.4), linestyle='-')
-plt.plot(steps_460m, training_loss_460m, label='TTL-460m', color=(0.5, 0.0, 0.5), linestyle='-')
+plt.plot(steps_160m, training_loss_160m, label='TTL-160m', color=(0.0, 0.8, 0.4), linestyle='-', linewidth=2.5)
+plt.plot(steps_460m, training_loss_460m, label='TTL-460m', color=(0.5, 0.0, 0.5), linestyle='-', linewidth=2.5)
 
 # Add markers at the final points
-plt.scatter(steps_160m[-1], training_loss_160m[-1], color=(0.0, 0.8, 0.4), marker='x')
-plt.scatter(steps_460m[-1], training_loss_460m[-1], color=(0.5, 0.0, 0.5), marker='x')
+plt.scatter(steps_160m[-1], training_loss_160m[-1], color=(0.0, 0.8, 0.4), marker='x', linewidth=2.5, s=200)
+plt.scatter(steps_460m[-1], training_loss_460m[-1], color=(0.5, 0.0, 0.5), marker='x', linewidth=2.5, s=200)
 
 # Add horizontal dotted line at the final loss values
 plt.axhline(y=training_loss_160m[-1], color=(0.0, 0.8, 0.4), linestyle='--')
@@ -65,12 +65,12 @@ perplexity_460m = df_460m_test['Perplexity'].values
 plt.figure(figsize=(15, 8))
 
 # Add perplexity lines
-plt.plot(stepes_eval_160m, perplexity_160m, label='TTL-160m', color=(0.0, 0.8, 0.4), linestyle='-')
-plt.plot(stepes_eval_460m, perplexity_460m, label='TTL-460m', color=(0.5, 0.0, 0.5), linestyle='-')
+plt.plot(stepes_eval_160m, perplexity_160m, label='TTL-160m', color=(0.0, 0.8, 0.4), linestyle='-', linewidth=2.5)
+plt.plot(stepes_eval_460m, perplexity_460m, label='TTL-460m', color=(0.5, 0.0, 0.5), linestyle='-', linewidth=2.5)
 
 # Add markers at the final points
-plt.scatter(stepes_eval_160m[-1], perplexity_160m[-1], color=(0.0, 0.8, 0.4), marker='x')
-plt.scatter(stepes_eval_460m[-1], perplexity_460m[-1], color=(0.5, 0.0, 0.5), marker='x')
+plt.scatter(stepes_eval_160m[-1], perplexity_160m[-1], color=(0.0, 0.8, 0.4), marker='x', linewidth=2.5, s=200)
+plt.scatter(stepes_eval_460m[-1], perplexity_460m[-1], color=(0.5, 0.0, 0.5), marker='x', linewidth=2.5, s=200)
 
 # Add horizontal dotted line at the final perplexity values
 plt.axhline(y=perplexity_160m[-1], color=(0.0, 0.8, 0.4), linestyle='--')
@@ -103,13 +103,13 @@ arc_acc = df_460m_benchmark.arc.values
 plt.figure(figsize=(15, 8))
 
 # Add accuracy lines
-plt.plot(steps_460m, arc_acc, label='TTL-460m', color=(0.5, 0.0, 0.5), linestyle='-')
+plt.plot(steps_460m, arc_acc, label='TTL-460m', color=(0.5, 0.0, 0.5), linestyle='-', linewidth=3.5)
 
 # Add horizontal dotted line at the final perplexity values
 plt.axhline(y=arc_acc.mean(), color="red", linestyle='--')
 
 # Annotate the final points with text
-plt.text(steps_460m[-1], arc_acc.mean(), f'{arc_acc.mean():.2f}', ha='right', va='bottom', fontsize=16, color="black")
+plt.text(steps_460m[-4], arc_acc.mean(), f'{arc_acc.mean():.2f}', ha='right', va='bottom', fontsize=16, color="black")
 
 # Customize the plot and save it as PNG and SVG
 plt.xlabel('Processed Tokens (billions)', fontsize=18, fontname='Calibri')
