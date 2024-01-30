@@ -1,4 +1,10 @@
+<div align="center">
+
 # TeenyTinyLlama: open-source _tiny_ language models trained in Brazilian Portuguese
+
+[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](xxx)
+
+</div>
 
 <p align="center">
     <a href="https://www.raies.org" target="_blank">
@@ -7,8 +13,6 @@
 </p>
 
 Large language models (LLMs) have significantly advanced natural language processing, but their progress has yet to be equal across languages. While most LLMs are trained in high-resource languages like English, multilingual models generally underperform monolingual ones. Additionally, aspects of their multilingual foundation sometimes restrict the byproducts they produce, like computational demands and licensing regimes. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits. This is the _TeenyTinyLlama_ pair: two compact models for Brazilian Portuguese text generation. We release them under the permissive Apache 2.0 license on [GitHub](https://github.com/Nkluge-correa/TeenyTinyLlama) and [Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) for community use and further development.
-
-Read our preprint on [ArXiv](xxx). 🤗
 
 ## Intended Uses
 
@@ -65,8 +69,10 @@ In the `img` folder, you will find a subfolder named `logs and plots`. In it, yo
 @misc{correa24ttllama,
   title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
   author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
-  journal={arXiv},
   year = {2024},
+  eprint={xxxx.xxxxx},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL}
 }
 
 ```
