@@ -2,7 +2,7 @@
 
 # TeenyTinyLlama: open-source _tiny_ language models trained in Brazilian Portuguese
 
-[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](xxx) | [Demo](https://huggingface.co/spaces/nicholasKluge/TeenyTinyLlama-Chat)
+[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](https://arxiv.org/abs/2401.16640) | [Demo](https://huggingface.co/spaces/nicholasKluge/TeenyTinyLlama-Chat)
 
 </div>
 
@@ -69,10 +69,8 @@ In the `img` folder, you will find a subfolder named `logs and plots`. In it, yo
 @misc{correa24ttllama,
   title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
   author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
-  year = {2024},
-  eprint={xxxx.xxxxx},
-  archivePrefix={arXiv},
-  primaryClass={cs.CL}
+  journal={arXiv preprint arXiv:2401.16640},
+  year={2024}
 }
 
 ```

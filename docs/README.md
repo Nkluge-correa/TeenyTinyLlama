@@ -2,7 +2,7 @@
 
 # TeenyTinyLlama: open-source _tiny_ language models trained in Brazilian Portuguese
 
-[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](xxx)
+[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](https://arxiv.org/abs/2401.16640) | [Demo](https://huggingface.co/spaces/nicholasKluge/TeenyTinyLlama-Chat)
 
 </div>
 
