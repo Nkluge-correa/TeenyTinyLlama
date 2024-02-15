@@ -59,11 +59,10 @@ size_categories:
 
 ## Dataset Description
 
-- **Homepage:** [Dataset](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus)
-- **Repository:** [GitHub](https://github.com/Nkluge-correa/TeenyTinyLlama)
-- **Paper:** [Paper](https://arxiv.org/abs/2401.16640).
-- **Leaderboard:** None
-- **Point of Contact:** [nicholas@airespucrs.org](nicholas@airespucrs.org)
+- **Homepage:** https://nkluge-correa.github.io/TeenyTinyLlama/
+- **Repository:** https://github.com/Nkluge-correa/TeenyTinyLlama
+- **Paper:** [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640)
+- **Point of Contact:** [AIRES at PUCRS](mailto:nicholas@airespucrs.org)
 
 ### Dataset Summary
 

@@ -71,11 +71,8 @@ configs:
 
 ## Dataset Description
 
-- **Homepage:** [Dataset](https://huggingface.co/datasets/nicholasKluge/instruct-aira-dataset-v3)
-- **Repository:** [GitHub](https://github.com/Nkluge-correa/Aira)
-- **Paper:** None
-- **Leaderboard:** None
-- **Point of Contact:** [nicholas@airespucrs.org](nicholas@airespucrs.org)
+- **Repository:** https://github.com/Nkluge-correa/Aira
+- **Point of Contact:** [AIRES at PUCRS](nicholas@airespucrs.org)
 
 ### Dataset Summary
 
