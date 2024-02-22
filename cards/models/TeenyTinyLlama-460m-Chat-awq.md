@@ -14,28 +14,7 @@ tags:
 - text generation
 - conversation
 - assistant
-widget:
-- text: "<s><instruction>Cite algumas bandas de rock famosas da década de 1960.</instruction>"
-  example_title: Exemplo
-- text: "<s><instruction>Quantos planetas existem no sistema solar?</instruction>"
-  example_title: Exemplo
-- text: "<s><instruction>Qual é o futuro do ser humano?</instruction>"
-  example_title: Exemplo
-- text: "<s><instruction>Qual o sentido da vida?</instruction>"
-  example_title: Exemplo
-- text: "<s><instruction>Como imprimir hello world em python?</instruction>"
-  example_title: Exemplo
-- text: "<s><instruction>Invente uma história sobre um encanador com poderes mágicos.</instruction>"
-  example_title: Exemplo
-inference:
-  parameters:
-    repetition_penalty: 1.2
-    temperature: 0.2
-    top_k: 30
-    top_p: 0.3
-    max_new_tokens: 200
-    length_penalty: 0.3
-    early_stopping: true
+inference: false
 co2_eq_emissions:
   emissions: 2.53
   source: CodeCarbon
@@ -120,6 +99,24 @@ The model will output something like:
 
 >>>Response 1: 🤖 A capital do Brasil é Brasília.
 >>>Response 2: 🤖 A capital do Brasil é Brasília.
+```
+
+The chat template for this model is:
+
+```bash
+{{bos_token}}
+{% for message in messages %}
+    {% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}
+        {{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}
+    {% endif %}
+    {% if message['role'] == 'user' %}
+        {{ '<instruction>' + message['content'].strip() + '</instruction>'}}
+    {% elif message['role'] == 'assistant' %}
+        {{ message['content'].strip() + eos_token}}
+    {% else %}
+        {{ raise_exception('Only user and assistant roles are supported!') }}
+    {% endif %}
+{% endfor %}
 ```
 
 ## Limitations

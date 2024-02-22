@@ -110,6 +110,24 @@ The model will output something like:
 >>>Response 2: 🤖 A capital do Brasil é Brasília.
 ```
 
+The chat template for this model is:
+
+```bash
+{{bos_token}}
+{% for message in messages %}
+    {% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}
+        {{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}
+    {% endif %}
+    {% if message['role'] == 'user' %}
+        {{ '<instruction>' + message['content'].strip() + '</instruction>'}}
+    {% elif message['role'] == 'assistant' %}
+        {{ message['content'].strip() + eos_token}}
+    {% else %}
+        {{ raise_exception('Only user and assistant roles are supported!') }}
+    {% endif %}
+{% endfor %}
+```
+
 ## Limitations
 
 Like almost all other language models trained on large text datasets scraped from the web, the TTL pair exhibited behavior that does not make them an out-of-the-box solution to many real-world applications, especially those requiring factual, reliable, nontoxic text generation. Our models are all subject to the following:
