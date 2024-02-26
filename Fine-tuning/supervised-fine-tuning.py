@@ -57,18 +57,11 @@ def main(spec_file):
     # Create output directory
     os.makedirs(training_args.output_dir, exist_ok=True)
 
-    # Create a HuggingFace repository if needed
-    if training_args.push_to_hub and training_args.hub_token is not None:
-        if training_args.hub_model_id is not None:
-            create_repo(
-                repo_id=training_args.hub_model_id, 
-                token=training_args.hub_token,
-                repo_type="model",
-                exist_ok=True,
-                private=True)
-        
-        else:
-            raise ValueError("No model id provided. Try running with `hub_model_id=your-user-name/your-model-name`")   
+    # Initialize the accelerator. We will let the accelerator handle device placement for us.
+    accelerator = Accelerator(
+        mixed_precision=extra_args.mixed_precision,
+        gradient_accumulation_steps=training_args.gradient_accumulation_steps,
+        project_dir=training_args.output_dir)
 
     # Set the logger
     logger = get_logger(extra_args.logger_name)
@@ -81,18 +74,29 @@ def main(spec_file):
         handlers=[logging.StreamHandler(sys.stdout)],
     )
 
-    # Initialize the accelerator. We will let the accelerator handle device placement for us.
-    accelerator = Accelerator(
-        mixed_precision=extra_args.mixed_precision,
-        gradient_accumulation_steps=training_args.gradient_accumulation_steps,
-        project_dir=training_args.output_dir)
-
     # Log the state of the accelerator
     logger.info(accelerator.state, main_process_only=False)
+    datasets.utils.logging.set_verbosity_error()
+    transformers.utils.logging.set_verbosity_error()
+    huggingface_hub.utils.logging.set_verbosity_error()
 
     # Set seed for reproducibility
     if training_args.seed is not None:
         set_seed(training_args.seed)
+    
+    # Create a HuggingFace repository if needed
+    if accelerator.is_main_process:
+        if training_args.push_to_hub and training_args.hub_token is not None:
+            if training_args.hub_model_id is not None:
+                create_repo(
+                    repo_id=training_args.hub_model_id, 
+                    token=training_args.hub_token,
+                    repo_type="model",
+                    exist_ok=True,
+                    private=True)
+            
+            else:
+                raise ValueError("No model id provided. Try running with `hub_model_id=your-user-name/your-model-name`")   
 
     # Load the fine-tuning dataset
     if data_args.dataset_name is not None:
@@ -125,6 +129,8 @@ def main(spec_file):
     if model_args.base_model is not None:
 
         # Load the tokenizer of the base model. We add here all the special tokens we want.
+        # In distributed training, the .from_pretrained methods guarantee that only one local process can concurrently
+        # download model & vocab.
         tokenizer_kwargs = {
                 "cache_dir": model_args.cache_dir,
                 "use_fast": model_args.use_fast,
@@ -328,22 +334,22 @@ def main(spec_file):
     # We need to recalculate our total training steps as the size of the training dataloader may have changed.
     num_update_steps_per_epoch = math.ceil(len(train_dataloader) / training_args.gradient_accumulation_steps)
     training_args.max_steps = training_args.num_train_epochs * num_update_steps_per_epoch
-    # Afterwards we recalculate our number of training epochs
     training_args.num_train_epochs = math.ceil(training_args.max_steps / num_update_steps_per_epoch)
 
-    # Initialize W&B tracker if needed
-    if extra_args.wandb_token is not None: 
-        # Login to wandb    
-        wandb.login(key=extra_args.wandb_token)
+    if accelerator.is_main_process:
+        # Initialize W&B tracker if needed
+        if extra_args.wandb_token is not None: 
+            # Login to wandb    
+            wandb.login(key=extra_args.wandb_token)
 
-        # Initialize wandb
-        wandb.init(
-            project=extra_args.logger_name, 
-            notes="Fine tuning TeenyTinyLlama",
-            tags=["Alignment", "Fine-tuning", "Energy Consumption", "Language Modeling", "Portuguese"],
-            config=all_kwargs,
-            name=f"""{extra_args.logger_name.lower()}-{model_args.model_id}-Chat-{time.strftime("%d-%m-%Y")}""",
-        )
+            # Initialize wandb
+            wandb.init(
+                project=extra_args.logger_name, 
+                notes="Fine tuning TeenyTinyLlama",
+                tags=["Alignment", "Fine-tuning", "Energy Consumption", "Language Modeling", "Portuguese"],
+                config=all_kwargs,
+                name=f"""{extra_args.logger_name.lower()}-{model_args.model_id}-Chat-{time.strftime("%d-%m-%Y")}""",
+            )
 
     # Intialize codecarbon tracker
     tracker = EmissionsTracker(
@@ -392,12 +398,13 @@ def main(spec_file):
                 loss = outputs.loss
                 total_loss += loss.detach().float()
 
-                # Log the loss to wandb
-                if (step) % extra_args.wandb_log_steps == 0 and extra_args.wandb_token is not None:
-                    wandb.log({
-                        "loss": loss.detach().float().item(),
-                        "lr": lr_scheduler.get_last_lr()[0],
-                        })
+                if accelerator.is_main_process:
+                    # Log the loss to wandb
+                    if (step) % extra_args.wandb_log_steps == 0 and extra_args.wandb_token is not None:
+                        wandb.log({
+                            "loss": loss.detach().float().item(),
+                            "lr": lr_scheduler.get_last_lr()[0],
+                            })
 
                 # Backward pass and update optimizer
                 accelerator.backward(loss)
@@ -419,33 +426,35 @@ def main(spec_file):
 
                     model.eval()
 
-                    inputs = tokenizer(random.choice(seeds), return_tensors="pt").to('cuda:0')
-                        
-                    sample_outputs = model.generate(**inputs,
-                                        do_sample=True,
-                                        top_k=50,
-                                        max_new_tokens=150,
-                                        top_p=0.50,
-                                        repetition_penalty=1.2,
-                                        num_return_sequences=5)
-                    
-                    model.config.use_cache = False
-                    
-                    texts = []
+                    if accelerator.is_main_process:
 
-                    for i, sample_output in enumerate(sample_outputs):
-                        texts.append(tokenizer.decode(sample_output))
-                    
-                    for text in texts:
-                        logger.info(f"Samples (Epoch: {epoch + 1} | Step: {step}): {text}")
+                        inputs = tokenizer(random.choice(seeds), return_tensors="pt").to('cuda:0')
+                            
+                        sample_outputs = model.generate(**inputs,
+                                            do_sample=True,
+                                            top_k=50,
+                                            max_new_tokens=150,
+                                            top_p=0.50,
+                                            repetition_penalty=1.2,
+                                            num_return_sequences=5)
                         
-                    if extra_args.wandb_token is not None:
+                        model.config.use_cache = False
+                        
+                        texts = []
 
-                        training_samples = wandb.Table(columns=[f"Samples (Epoch: {epoch + 1} | Step: {step})"])
+                        for i, sample_output in enumerate(sample_outputs):
+                            texts.append(tokenizer.decode(sample_output))
+                        
                         for text in texts:
-                            training_samples.add_data(text)
-                        wandb.log({f"Samples (Epoch: {epoch + 1} | Step: {step})": training_samples})
-                
+                            logger.info(f"Samples (Epoch: {epoch + 1} | Step: {step}): {text}")
+                            
+                        if extra_args.wandb_token is not None:
+
+                            training_samples = wandb.Table(columns=[f"Samples (Epoch: {epoch + 1} | Step: {step})"])
+                            for text in texts:
+                                training_samples.add_data(text)
+                            wandb.log({f"Samples (Epoch: {epoch + 1} | Step: {step})": training_samples})
+                    
                 except Exception as e:
                     logger.warning(f"Error while generating samples: {e}")
                     model.config.use_cache = False
@@ -474,26 +483,28 @@ def main(spec_file):
             
             logger.info(f"Epoch {epoch + 1} | Perplexity: {perplexity} | Average Training Loss: {total_loss.item() / completed_steps} | Evaluation Loss: {eval_loss} | Total Energy Consumption: {tracker._total_energy.kWh}")
             
-            # Log the metrics to wandb if needed
-            if extra_args.wandb_token is not None:
+            if accelerator.is_main_process:
+                # Log the metrics to wandb if needed
+                if extra_args.wandb_token is not None:
 
-                    wandb.log({
-                        "eval_loss": eval_loss,
-                        "perplexity": perplexity,     
-                        "avg_train_loss": total_loss.item() / completed_steps,
-                        "total_energy_consumption": tracker._total_energy.kWh,      
-                    })
+                        wandb.log({
+                            "eval_loss": eval_loss,
+                            "perplexity": perplexity,     
+                            "avg_train_loss": total_loss.item() / completed_steps,
+                            "total_energy_consumption": tracker._total_energy.kWh,      
+                        })
             
         else:
             logger.info(f"Epoch {epoch + 1} | Average Training Loss: {total_loss.item() / completed_steps} | Total Energy Consumption: {tracker._total_energy.kWh}")
 
-            # Log the metrics to wandb if needed
-            if extra_args.wandb_token is not None:
+            if accelerator.is_main_process:
+                # Log the metrics to wandb if needed
+                if extra_args.wandb_token is not None:
 
-                    wandb.log({    
-                        "avg_train_loss": total_loss.item() / completed_steps,
-                        "total_energy_consumption": tracker._total_energy.kWh,      
-                    })
+                        wandb.log({    
+                            "avg_train_loss": total_loss.item() / completed_steps,
+                            "total_energy_consumption": tracker._total_energy.kWh,      
+                        })
         
         # Save the model checkpoint at the end of each epoch    
         accelerator.wait_for_everyone()
@@ -515,53 +526,59 @@ def main(spec_file):
     if extra_args.wandb_token is not None:
         wandb.finish()
 
-    # Save the optimizer, lr_scheduler states, rng state, and pytorch model
-    rng_state = torch.get_rng_state()
-    torch.save(rng_state, f"./{training_args.output_dir}/rng_state.pt")
-    torch.save(lr_scheduler.state_dict(), f"./{training_args.output_dir}/lr_scheduler.pt")
-    torch.save(optimizer.state_dict(), f"./{training_args.output_dir}/optimizer.pt")
+    if accelerator.is_main_process:
+        # Save the optimizer, lr_scheduler states, rng state, and pytorch model
+        rng_state = torch.get_rng_state()
+        torch.save(rng_state, f"./{training_args.output_dir}/rng_state.pt")
+        torch.save(lr_scheduler.state_dict(), f"./{training_args.output_dir}/lr_scheduler.pt")
+        torch.save(optimizer.state_dict(), f"./{training_args.output_dir}/optimizer.pt")
 
-    # Save the `generation_config` file
-    generation_config = GenerationConfig(
-        bos_token_id=tokenizer.bos_token_id,
-        sep_token_id=tokenizer.sep_token_id,
-        eos_token_id=tokenizer.eos_token_id,
-        pad_token_id=tokenizer.pad_token_id,
-        unk_token_id=tokenizer.unk_token_id,
-        max_new_tokens=model.config.max_position_embeddings,
-        min_length=0,
-        do_sample=True,
-        use_cache=False,
-        renormalize_logits=True,
-        top_k=30,
-        top_p=0.3,
-        temperature=0.3,
-        repetition_penalty=1.2,
-    )
+        # Save the `generation_config` file
+        generation_config = GenerationConfig(
+            bos_token_id=tokenizer.bos_token_id,
+            sep_token_id=tokenizer.sep_token_id,
+            eos_token_id=tokenizer.eos_token_id,
+            pad_token_id=tokenizer.pad_token_id,
+            unk_token_id=tokenizer.unk_token_id,
+            max_new_tokens=model.config.max_position_embeddings,
+            min_length=0,
+            do_sample=True,
+            use_cache=False,
+            renormalize_logits=True,
+            top_k=30,
+            top_p=0.3,
+            temperature=0.3,
+            repetition_penalty=1.2,
+        )
 
-    generation_config.save_pretrained(training_args.output_dir)
+        generation_config.save_pretrained(training_args.output_dir)
 
     # Push the model checkpoint to the hub if needed
     if training_args.push_to_hub and training_args.hub_token is not None:
+        if training_args.hub_model_id is not None:
 
-        try:
+            accelerator.wait_for_everyone()
 
-            api = HfApi(
-                token=training_args.hub_token,
-            )
+            try:
 
-            logger.info(f"""Ouput directory (`{training_args.output_dir}`) being uploaded to the hub.""")
+                if accelerator.is_main_process:
 
-            api.upload_folder(
-                repo_id=training_args.hub_model_id,
-                folder_path=training_args.output_dir,
-            )
-            
-            logger.info(f"Ouput directory (`{training_args.output_dir}`) uploaded to the hub!")
-        
-        except Exception as e:
-            logger.warning(f"Error while uploading checkpoint to Hub: {e}")
-            pass
+                    api = HfApi(
+                        token=training_args.hub_token,
+                    )
+
+                    logger.info(f"""Ouput directory (`{training_args.output_dir}`) being uploaded to the hub.""")
+
+                    api.upload_folder(
+                        repo_id=training_args.hub_model_id,
+                        folder_path=training_args.output_dir,
+                    )
+                    
+                    logger.info(f"Ouput directory (`{training_args.output_dir}`) uploaded to the hub!")
+                
+            except Exception as e:
+                logger.warning(f"Error while uploading checkpoint to Hub: {e}")
+                pass
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fine tune a language model on an instruction dataset.")

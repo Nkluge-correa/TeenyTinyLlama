@@ -114,7 +114,7 @@ dataset = load_dataset("nicholasKluge/Pt-Corpus", split='train', streaming=True)
 
 ### Curation Rationale
 
-This dataset was developed are part of the [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640) paper. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits.
+This dataset was developed as part of the [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640) paper. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits.
 
 ### Source Data
 

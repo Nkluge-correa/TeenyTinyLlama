@@ -124,10 +124,12 @@ Having your specification file configured, you can run the pre-training script l
 python pre-training.py --spec-file specs.yaml
 ```
 
-For distributed training, run this script using `accelerate`:
+For distributed training, run this script using [`Accelerate`](https://huggingface.co/docs/accelerate/index):
 
 ```bash
 accelerate launch --num_processes=4 pre-training.py --spec-file specs.yaml
 ```
 
 This will launch 4 processes on the current node, each with 1 GPU device per process. More information can be found [here](https://huggingface.co/docs/accelerate/basic_tutorials/launch).
+
+> **Note: Although not required, we recommend running `accelerate config` before running `accelerate launch` to specify the configurations of your distributed environment. On the contrary, Accelerate will set default configurations based on your environment (e.g., the number of visible Cuda devises). These are saved in a `default_config.yaml` file and later used by Accelerate. You can get more information on the Accelerate [documentation](https://huggingface.co/docs/accelerate/basic_tutorials/launch#why-you-should-always-use-accelerate-config) and this [step-by-step tutorial](https://huggingface.co/blog/ram-efficient-pytorch-fsdp) from Hugging Face.**

@@ -62,8 +62,7 @@ size_categories:
 
 ### Dataset Summary
 
-This repository has a tokenized version (using the [TeenyTinyLlama tokenizer](https://huggingface.co/nicholasKluge/TeenyTinyLlama-460m)) of the [Portuguese-Corpus Instruct dataset](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct). All sequences are 2048 tokens long.
- All sequences are 2048 tokens long. This dataset was used in "_[TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640)_".
+This repository has a tokenized version (using the [TeenyTinyLlama tokenizer](https://huggingface.co/nicholasKluge/TeenyTinyLlama-460m)) of the [Portuguese-Corpus Instruct dataset](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct). All sequences are 2048 tokens long. All sequences are 2048 tokens long. This dataset was used in "_[TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640)_".
 
 For more information, see the [original dataset card](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct).
 
