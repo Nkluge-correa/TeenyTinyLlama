@@ -150,7 +150,7 @@ def main(spec_file):
 
         tokenizer = AutoTokenizer.from_pretrained(
             model_args.tokenizer_name, 
-            {
+            **{
             "cache_dir": model_args.cache_dir,
             "use_fast": model_args.use_fast_tokenizer,
             "revision": model_args.model_revision,
@@ -178,7 +178,7 @@ def main(spec_file):
         # Load the configurations to create a new model.
         configuration = AutoConfig.from_pretrained(
             model_args.model_to_train, 
-            {
+            **{
             "cache_dir": model_args.cache_dir,
             "revision": model_args.model_revision,
             "token": training_args.hub_token,
@@ -229,7 +229,7 @@ def main(spec_file):
         # Load the configuration of the model to train.
         configuration = AutoConfig.from_pretrained(
             model_args.model_to_train, 
-            {
+            **{
             "cache_dir": model_args.cache_dir,
             "revision": model_args.model_revision,
             "token": training_args.hub_token,
