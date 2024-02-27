@@ -44,7 +44,7 @@ These are the arguments you pass to this script:
 
 ## Benchmark Evaluation
 
-The `lm-evaluation-harness-pt.ipynb` notebook showcases how to evaluate a model on the [Laiviet](https://github.com/laiviet/lm-evaluation-harness) version of the [`LM-Evaluation-Harness`](https://github.com/EleutherAI/lm-evaluation-harness). To run it, run the cells in the notebook in an environment with access to a GPU (e.g., Colab).
+The `lm-evaluation-harness-pt.ipynb` notebook showcases how to evaluate a model on the [Laiviet](https://github.com/laiviet/lm-evaluation-harness) version of the [`LM-Evaluation-Harness`](https://github.com/EleutherAI/lm-evaluation-harness). To run it, run the cells in the notebook in an environment with access to a GPU (e.g., Colab). Evaluation on Portuguese benchmarks are available in the [New-EVAL](./New-EVAL/) folder.
 
 <a href="https://colab.research.google.com/drive/1mspcStRItqKzLZ39PG-ztKJXCqSvlEKt" target="_blank">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">

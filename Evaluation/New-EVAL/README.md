@@ -1,6 +1,6 @@
 # New Evaluations
 
-We are performing the following evaluations using a [Portuguese implementation of EleutherAI LM Evaluation Harness](https://github.com/eduagarcia/lm-evaluation-harness-pt). The benchmarks used for assessment are:
+We performed the following evaluations using a [Portuguese implementation of the EleutherAI LM Evaluation Harness](https://github.com/eduagarcia/lm-evaluation-harness-pt):
 
 - [ENEM](https://ieeexplore.ieee.org/document/8247091) (3-shot) - The Exame Nacional do Ensino Médio (ENEM) is an advanced High-School level exam widely applied every year by the Brazilian government to students that wish to undertake a University degree. This dataset contains 1,430 questions that don't require image understanding of the exams from 2010 to 2018, 2022, and 2023. - Data sources:  [[1]](https://huggingface.co/datasets/eduagarcia/enem_challenge),  [[2]](https://www.ime.usp.br/~ddm/project/enem/),  [[3]](https://github.com/piresramon/gpt-4-enem),  [[4]](https://huggingface.co/datasets/maritaca-ai/enem). Metric - Accuracy.
 
@@ -22,7 +22,7 @@ The notebook used to run these evaluations is the [`lm-evaluation-harness-pt-br.
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
 </a>
 
-## Comparisons
+## Benchmarks
 
 |                    | **ASSIN2 RTE** | **ASSIN2 STS** | **BLUEX** | **ENEM** | **FAQUAD NLI** | **HateBR** | **OAB Exams** | **Average** |
 |--------------------|----------------|----------------|-----------|----------|----------------|------------|---------------|-------------|
