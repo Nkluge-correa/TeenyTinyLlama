@@ -7,7 +7,7 @@ from transformers import LlamaTokenizerFast, TrainingArguments, AutoTokenizer
 
 def main(args):
 
-    # Load the dataset from the huggingface Hub and prepare it for training
+    # Load the dataset from the huggingface Hub and prepare it for training.
     if args.dataset_name is not None:
         dataset = load_dataset(args.dataset_name, 
             split=args.dataset_split, 
@@ -16,17 +16,17 @@ def main(args):
     else:
         raise ValueError("No dataset name provided or dataset is already tokenized") 
 
-    # Remove non text columns
+    # Remove non text columns.
     dataset = dataset.remove_columns([col for col in dataset.column_names if col != "text"])
 
     # Select `num_samples` from the dataset
-    # According to our tests, 2 million samples is enough to train a good tokenizer without running into memory issues
+    # According to our tests, 2 million samples is enough to train a good tokenizer without running into memory issues.
     dataset = dataset.shuffle(seed=42).select(range(arg.num_samples))
 
-    # Create a SentencePieceBPETokenizer
+    # Create a SentencePieceBPETokenizer.
     tokenizer = SentencePieceBPETokenizer()
 
-    # Train the SentencePieceBPETokenizer on the dataset
+    # Train the SentencePieceBPETokenizer on the dataset.
     tokenizer.train_from_iterator(
         iterator=dataset['text'],
         vocab_size=args.vocab_size,
@@ -34,24 +34,24 @@ def main(args):
         special_tokens=["<unk>", "<s>", "</s>",  "<pad>"],
     )
 
-    # Save the tokenizer
+    # Save the tokenizer.
     tokenizer.save("new-sentencepiece-tokenizer.json", pretty=True)
 
-    # Load reference tokenizer
+    # Load reference tokenizer.
     if args.reference_tokenizer is not None and args.hub_token is not None:
         reference_tokenizer = AutoTokenizer.from_pretrained(args.reference_tokenizer, token=args.hub_token if args.hub_token else None)
         reference_tokenizer.save_pretrained("reference-tokenizer")
     else:
         raise ValueError("No tokenizer name provided or no hub token provided. Try using `--reference_tokenizer 'meta-llama/Llama-2-7b-hf'")
 
-    # Read and dump the json file for the new tokenizer and the reference tokenizer
+    # Read and dump the json file for the new tokenizer and the reference tokenizer.
     with open("new-sentencepiece-tokenizer.json") as f:
         new_llama_tokenizer_json = json.load(f)
 
     with open("reference-tokenizer/tokenizer.json") as f:
         reference_tokenizer_json = json.load(f)
     
-    # Add the reference tokenizer's config to the new tokenizer's config
+    # Add the reference tokenizer's config to the new tokenizer's config.
     new_llama_tokenizer_json["normalizer"] = reference_tokenizer_json["normalizer"]
     new_llama_tokenizer_json["pre_tokenizer"] = reference_tokenizer_json["pre_tokenizer"]
     new_llama_tokenizer_json["post_processor"] = reference_tokenizer_json["post_processor"]
@@ -59,11 +59,11 @@ def main(args):
     new_llama_tokenizer_json["model"]['fuse_unk'] = reference_tokenizer_json["model"]['fuse_unk']
     new_llama_tokenizer_json["model"]['byte_fallback'] = reference_tokenizer_json["model"]['byte_fallback']
 
-    # Dump the new tokenizer's config
+    # Dump the new tokenizer's config.
     with open("new-sentencepiece-tokenizer.json", "w") as f:
         json.dump(new_llama_tokenizer_json, f, indent=2, ensure_ascii=False)
 
-    # Load the new tokenizer as a LlamaTokenizerFast
+    # Load the new tokenizer as a LlamaTokenizerFast.
     new_llama_tokenizer = LlamaTokenizerFast(
         tokenizer_file="new-sentencepiece-tokenizer.json",
         unk_token="<unk>",
@@ -77,7 +77,7 @@ def main(args):
         padding_side="right",
     )
 
-    # Save the new tokenizer
+    # Save the new tokenizer.
     new_llama_tokenizer.save_pretrained("new-llama-tokenizer")
 
 if __name__ == "__main__":

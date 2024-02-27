@@ -616,7 +616,7 @@ def main(spec_file):
                                 except Exception as e:
                                     logger.warning(f"Error while uploading checkpoint to Hub: {e}")
                                 
-                # Generate text from the model every `sample_every ` steps
+                # Generate text from the model every `sample_every ` steps.
                 if completed_steps % extra_args.sample_every == 0 and not completed_steps == 0:
                     
                     model.config.use_cache = True
