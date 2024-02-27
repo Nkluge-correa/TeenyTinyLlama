@@ -19,16 +19,18 @@ from codecarbon import EmissionsTracker
 from accelerate.logging import get_logger
 from accelerate import Accelerator, DistributedType
 
-# Set these environment variables for improved performance in modern Ampere GPUs (e.g., A100) 
+# These environment variables result in improved performance in modern Ampere GPUs (e.g., A100)
+# Remember that `TF32` mode will only work on Ampere GPUs! 
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
 
 def main(args):
     
-    # Create the accelerator
+    # We are going to be using the `accelerate` library, which provides the `Accelerator` class
+    # that can be used to handle device placement and distributed training.
     accelerator = Accelerator()
 
-    # Set the logger
+    # Set the logger.
     logger = get_logger(args.logger_name)
 
     # Create configurations for the logger
@@ -39,20 +41,25 @@ def main(args):
         handlers=[logging.StreamHandler(sys.stdout)],
     )
     
-    # Set the verbosity of other libraries
+    # We are setting the verbosity of the `datasets`, `transformers` and `huggingface_hub` libraries
+    # to `error` to avoid unnecessary logs.
     logger.info(accelerator.state, main_process_only=False)
     datasets.utils.logging.set_verbosity_error()
     transformers.utils.logging.set_verbosity_error()
+    huggingface_hub.utils.logging.set_verbosity_error()
 
-    # Load the model and the tokenizer
+    # We are using the `accelerator.wait_for_everyone()` method to ensure that all processes
+    # have finished the previous steps before moving on to the next one.
     accelerator.wait_for_everyone()
+
+    # Load the model and tokenizer.
     tokenizer = AutoTokenizer.from_pretrained(args.model_checkpoint_path, revision=args.revision)
     model = AutoModelForCausalLM.from_pretrained(args.model_checkpoint_path, revision=args.revision,
         attn_implementation=args.attn_implementation,
         torch_dtype=torch.bfloat16 if args.attn_implementation else torch.float32,
     )
 
-    # Load the evaluation dataset
+    # Load the evaluation dataset.
     #
     # The dataset folder must contain a list o parquet files, and you 
     # can achieve this by simply cloning the dataset from the hub 
@@ -70,10 +77,10 @@ def main(args):
             },
             streaming=False)['test']
 
-    # Set the format to `torch`
+    # Set the format to `torch`.
     eval_dataset = eval_dataset.with_format("torch") 
     
-    # Create the Evaluation DataLoader
+    # Create the Evaluation DataLoader.
     eval_dataloader = DataLoader(
         eval_dataset,
         shuffle=False,
@@ -82,12 +89,13 @@ def main(args):
         pin_memory=True,
     )
     
-    # Prepare everything with `accelerator`.
+    # We are preparing everything with `accelerator`. The `prepare` method will handle the device 
+    # placement and distributed training.
     model, eval_dataloader = accelerator.prepare(
             model, eval_dataloader
         )
         
-    # Create the emissions tracker
+    # Create the an instance of `EmissionsTracker`.
     tracker = EmissionsTracker(
         log_level="critical", # set to "critical" to silence codecarbon
         output_file=f"emissions.csv",
@@ -116,7 +124,7 @@ def main(args):
     
     logger.info(f"Step {args.completed_steps} | Perplexity: {perplexity} | Evaluation Loss: {eval_loss} | Total Energy Consumption: {tracker._total_energy.kWh + args.total_energy_consumption}")
     
-    # print the results as a markdown table
+    # Print the results as a markdown table.
     print("| Step | Evaluation Loss | Perplexity | Total Energy Consumption |")
     print("| ---- | --------------- | ---------- |------------------------- |")
     print(f"| {args.completed_steps} | {eval_loss} | {perplexity} | {tracker._total_energy.kWh + args.total_energy_consumption} |")
