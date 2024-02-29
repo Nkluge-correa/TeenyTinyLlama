@@ -20,6 +20,9 @@
 #
 # This will launch 4 processes on the current node, each with 1 GPU device per process.
 # More information can be found here: https://huggingface.co/docs/accelerate/basic_tutorials/launch
+# If the `accelerate lunch` is slower than just running the script without `accelerate`, this is probably due
+# to some incompatibility with the current version of torch and the cuda driver. Issue documented here:
+# https://discuss.huggingface.co/t/single-gpu-is-faster-than-multiple-gpus/71383
 #
 # You can exlpore other settings using the `accelerate config` command.
 # In this configuration, you can set things like the number of visible GPUs and etc. 
