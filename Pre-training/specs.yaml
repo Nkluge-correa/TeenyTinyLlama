@@ -1,7 +1,7 @@
 model_args:
   model_to_train: "nicholasKluge/TeenyTinyLlama-160m"
   tokenizer_name: "nicholasKluge/TeenyTinyLlama-160m"
-  model_id: "160m"
+  model_id: "460m"
   train_from_scratch: true
   vocab_size: 32000
   hidden_size: 768
@@ -20,8 +20,8 @@ model_args:
   use_cache: true
   attn_implementation: "flash_attention_2"
 data_args:
-  dataset_name: "nicholasKluge/GigaVerbo"
-  folder_path: "/data/GigaVerbo-tokenized/"
+  dataset_name: "nicholasKluge/Pt-Corpus-Instruct"
+  folder_path: "/data/nicholasKluge/Pt-Corpus-Instruct-tokenized-large/"
   dataset_split: "train"
   block_size: 2048
   overwrite_cache: false
@@ -32,31 +32,31 @@ training_args:
   do_train: true
   do_eval: true
   evaluation_strategy: "step"
-  eval_steps: 100
-  per_device_train_batch_size: 4
-  per_device_eval_batch_size: 4
-  gradient_accumulation_steps: 1
+  eval_steps: 100000
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 8
+  gradient_accumulation_steps: 2
   learning_rate: 0.0006
   adam_epsilon: 0.00000001
   weight_decay: 0.01
   lr_scheduler_type: "cosine"
-  warmup_steps: 50
+  warmup_steps: 10000
   max_steps: null
-  num_train_epochs: 1
+  num_train_epochs: 2
   gradient_checkpointing: false
   seed: 42
   dataloader_pin_memory: true
   push_to_hub: true
   resume_from_checkpoint: null
-  hub_model_id: "nicholasKluge/Mula-test"
+  hub_model_id: "nicholasKluge/TeenyTinyLlama-460m"
   hub_token: null
 extra_args:
   wandb_token: null
-  logger_name: "Mula"
+  logger_name: "TeenyTinyLlama"
   wandb_log_steps: 1
   mixed_precision: 'bf16'
-  checkpointing_steps: 100
-  sample_every: 100
+  checkpointing_steps: 100000
+  sample_every: 100000
   generation_seeds:
     - "Meu nome é Nicholas e eu estudo na PUCRS, uma universidade privada de Porto Alegre, Rio Grande do Sul, Brasil. A PUCRS é"
     - "O Brasil é um país que possui muitas belezas naturais, como as cataratas do Iguaçu, o Cristo Redentor e o Pão de Açúcar. O Brasil também é conhecido por"

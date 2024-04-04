@@ -187,12 +187,12 @@ def main(spec_file):
             "token": training_args.hub_token,
             "trust_remote_code": model_args.trust_remote_code,
             "output_hidden_states": model_args.output_hidden_states,
-            "hidden_size": model_args.hidden_size,
-            "intermediate_size": model_args.intermediate_size,
-            "max_position_embeddings": model_args.max_position_embeddings,
-            "num_attention_heads": model_args.num_attention_heads,
-            "num_hidden_layers": model_args.num_hidden_layers,
-            "num_key_value_heads": model_args.num_key_value_heads,
+            "hidden_size": model_args.hidden_size, # 160m: 768 | 460m: 1024 | 1.1b: 2048
+            "intermediate_size": model_args.intermediate_size, # 160m: 3072 | 460m: 4096 | 1.1b: 5632
+            "max_position_embeddings": model_args.max_position_embeddings, # 160m: 2048 | 460m: 2048 | 1.1b: 2048
+            "num_attention_heads": model_args.num_attention_heads, # 160m: 12 | 460m: 16 | 1.1b: 32
+            "num_hidden_layers": model_args.num_hidden_layers, # 160m: 12 | 460m: 24 | 1.1b: 22
+            "num_key_value_heads": model_args.num_key_value_heads, # 160m: 12 | 460m: 16 | 1.1b: 4
             "bos_token_id": tokenizer.bos_token_id,
             "eos_token_id": tokenizer.eos_token_id,
             "pad_token_id": tokenizer.pad_token_id,
