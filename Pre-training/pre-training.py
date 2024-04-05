@@ -172,8 +172,8 @@ def main(spec_file):
                 if training_args.hub_model_id is not None:
                     tokenizer.push_to_hub(training_args.hub_model_id, token=training_args.hub_token)
         
-            else:
-                raise ValueError("Need a tokenizer name to train on. Train a tokenizer from scratch usign the `train-sentencepiece.py`.")
+    else:
+        raise ValueError("Need a tokenizer name to train on. Train a tokenizer from scratch usign the `train-sentencepiece.py`.")
 
     # See if we need to train the model from scratch.
     if model_args.train_from_scratch:
@@ -296,9 +296,7 @@ def main(spec_file):
     # Set the format to `torch`.
     train_dataset = train_dataset.with_format("torch")
     eval_dataset = eval_dataset.with_format("torch") 
-
-    logger.info(f"Size of train dataset: {len(train_dataset):,} ({len(train_dataset) * data_args.block_size:,} tokens)| Size of validation dataset: {len(eval_dataset):,}")
-
+    
     # If we wat to do a sanity check, we will use a small subset of the dataset.
     if data_args.sanity_check:
 
