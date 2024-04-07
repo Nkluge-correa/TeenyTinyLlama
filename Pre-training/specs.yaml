@@ -15,7 +15,7 @@ model_args:
   use_fast_tokenizer: true
   model_revision: "main"
   trust_remote_code: false
-  torch_dtype: "auto"
+  torch_dtype: "bf16"
   low_cpu_mem_usage: null
   use_cache: true
   attn_implementation: "flash_attention_2"

@@ -1,4 +1,5 @@
 # Requirements to run this script:
+# - Python version: 3.10.12
 # - transformers==4.38.0.dev0
 # - torch==2.1.0+cu121
 # - pyyaml==6.0.1
@@ -9,6 +10,7 @@
 # - accelerate==0.26.1
 # - sentencepiece==0.1.99
 # - flash-attn==2.5.0
+# - deepspeed==0.14.0
 #
 # To run this script, in a single GPU, you just need to run:
 #
@@ -16,21 +18,21 @@
 #
 # For distributed training, run this script using `accelerate`:
 #
-# accelerate launch --num_processes=4 supervised-fine-tuning.py --spec-file specs.yaml
+# accelerate launch --config_file "fsdp_config.yaml" --num_processes=4 supervised-fine-tuning.py --spec-file specs.yaml
 #
 # This will launch 4 processes on the current node, each with 1 GPU device per process.
 # More information can be found here: https://huggingface.co/docs/accelerate/basic_tutorials/launch
+# If the `accelerate lunch` is slower than just running the script without `accelerate`, this is probably due
+# to some incompatibility with the current version of torch and the cuda driver. Issue documented here:
+# https://discuss.huggingface.co/t/single-gpu-is-faster-than-multiple-gpus/71383
 #
-# You can exlpore other settings using the `accelerate config` command.
-# In this configuration, you can set things like the number of visible GPUs and etc. 
-# After running the `accelerate config` command, the configurations are saved in a `default_config.yaml` 
-# file and later used by Accelerate. You can get more information on the Accelerate documentation and this 
-# step-by-step tutorial from Hugging Face on the links below.
+# The `fsdp_config.yaml` file is a configuration file for the `accelerate` library. It is used to set the
+# number of processes, the number of GPUs per process, and other settings. You can get more information on the
+# `accelerate` documentation and this step-by-step tutorial from Hugging Face on the links below.
 #
 # Documentationon Accelerate Config: https://huggingface.co/docs/accelerate/basic_tutorials/launch#why-you-should-always-use-accelerate-config
 # Step-by-step Tutorial: https://huggingface.co/blog/ram-efficient-pytorch-fsdp
-#
-# This scritp is based on the `run_clm_no_trainer.py` script from the transformers library: https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm_no_trainer.py
+
 import os
 import sys
 import time
@@ -89,14 +91,11 @@ def main(spec_file):
         gradient_accumulation_steps=training_args.gradient_accumulation_steps,
         project_dir=training_args.output_dir)
 
-    # Now, we want to create a directory to save the logs and the model checkpoints.
-    # Ideally, we would like that only the main process creates the directory.
-    # Also, we want only the main process to handle the saving of the model checkpoints
-    # and the logs to the HuggingFace Hub / Weights & Biases.
-    if accelerator.is_main_process:
-        os.makedirs(output_dir, exist_ok=True)
+    # Create a directory to save the logs and the model checkpoints.
+    os.makedirs(training_args.output_dir, exist_ok=True)
 
     # Set the logger.
+    # Nothing fancy here, just a simple logger.
     logger = get_logger(extra_args.logger_name)
 
     # Create configurations for the logger.
@@ -109,10 +108,12 @@ def main(spec_file):
 
     # We are setting the verbosity of the `datasets`, `transformers` and `huggingface_hub` libraries
     # to `error` to avoid unnecessary logs.
-    logger.info(accelerator.state, main_process_only=False)
     datasets.utils.logging.set_verbosity_error()
     transformers.utils.logging.set_verbosity_error()
     huggingface_hub.utils.logging.set_verbosity_error()
+
+    # Log the status of the accelerator on all processes.
+    logger.info(accelerator.state, main_process_only=False)
 
     # Set seed before initializing model.
     # This is important to ensure synchronization of the random number generators across all processes.
@@ -121,6 +122,7 @@ def main(spec_file):
     
     # We are using the `accelerator.wait_for_everyone()` method to ensure that all processes
     # have finished the previous steps before moving on to the next one.
+    # Documentation: https://huggingface.co/docs/accelerate/v0.27.2/en/package_reference/accelerator#synchronicity-control       
     accelerator.wait_for_everyone()
 
     # Create a HuggingFace repository if needed (only the main process should do this).
@@ -325,6 +327,9 @@ def main(spec_file):
     # These strings `["bias", "layer_norm.weight"]` represent parameter names that should not be subject to weight decay during optimization. 
     # Weight decay is a regularization technique used during training to prevent overfitting by penalizing large weights.
     no_decay = ["bias", "layer_norm.weight"]
+
+    # The first dictionary corresponds to parameters with weight decay (regularization) applied to them (non-bias and non-layer_norm.weight parameters).
+    # The second dictionary corresponds to parameters without weight decay (regularization) applied to them (bias and layer_norm.weight parameters).
     optimizer_grouped_parameters = [
         {
             "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
@@ -408,11 +413,16 @@ def main(spec_file):
         project_name=extra_args.logger_name,
         log_level="critical", # set to "critical" to silence codecarbon
         output_dir=training_args.output_dir,
-        output_file=f"emissions.csv",
+        output_file=f"emissions_{accelerator.process_index}.csv",
         tracking_mode='machine'
     )
 
     logger.info(f'Geo Location: ISO: {tracker._geo.country_iso_code} | Country: {tracker._geo.country_name} | Region : {tracker._geo.region}')
+
+    # Initialize the HuggingFace Hub API.
+    if training_args.push_to_hub and training_args.hub_token is not None:
+        if training_args.hub_model_id is not None:
+            api = HfApi(token=training_args.hub_token)
 
     # The total batch size is calculated by multiplying the number of samples in `per_device_train_batch_size`
     # by the number of processes in the accelerator.
@@ -456,8 +466,8 @@ def main(spec_file):
                 # Add the loss to the total loss.
                 total_loss += loss.detach().float()
 
+                # We only want to log the loss to wandb from the main process.
                 if accelerator.is_main_process:
-                    # Log the loss to wandb
                     if (step) % extra_args.wandb_log_steps == 0 and extra_args.wandb_token is not None:
                         wandb.log({
                             "loss": loss.detach().float().item(),
@@ -482,7 +492,7 @@ def main(spec_file):
             # Generate text from the model every `sample_every ` steps.
             if accelerator.is_main_process:
 
-                if step % extra_args.sample_every == 0 and not step == 0:
+                if completed_steps % extra_args.sample_every == 0 and not step == 0:
                     
                     model.config.use_cache = True
 
@@ -577,32 +587,21 @@ def main(spec_file):
         # Save the model checkpoint at the end of each epoch.    
         accelerator.wait_for_everyone()
 
-        if accelerator.is_main_process:
-            unwrapped_model = accelerator.unwrap_model(model)
-            unwrapped_model.save_pretrained(
-                training_args.output_dir, 
-                is_main_process=accelerator.is_main_process, 
-                save_function=accelerator.save
-            )
-            tokenizer.save_pretrained(training_args.output_dir)
-        
-    # Resume codecarbon tracking.
-    tracker.stop()
-    logger.info("Training complete!")
-    
-    accelerator.wait_for_everyone()
+        output_dir = f"epoch_{epoch + 1}"
 
-    # Save the optimizer, lr_scheduler states, rng state, and pytorch model.
-    if accelerator.is_main_process:
+        if training_args.output_dir is not None:
+            # Join the output directory with the current checkpoint directory.
+            output_dir = os.path.join(training_args.output_dir, output_dir)
+        # Save the model checkpoint.
+        accelerator.save_state(output_dir)
 
-        if extra_args.wandb_token is not None:
-            wandb.finish()
-
-        # Save the optimizer, lr_scheduler states, rng state, and pytorch model.
-        rng_state = torch.get_rng_state()
-        torch.save(rng_state, f"./{training_args.output_dir}/rng_state.pt")
-        torch.save(lr_scheduler.state_dict(), f"./{training_args.output_dir}/lr_scheduler.pt")
-        torch.save(optimizer.state_dict(), f"./{training_args.output_dir}/optimizer.pt")
+        unwrapped_model = accelerator.unwrap_model(model)
+        unwrapped_model.save_pretrained(
+            training_args.output_dir, 
+            is_main_process=accelerator.is_main_process, 
+            save_function=accelerator.save
+        )
+        tokenizer.save_pretrained(output_dir)
 
         # Save the `generation_config` file
         generation_config = GenerationConfig(
@@ -622,32 +621,67 @@ def main(spec_file):
             repetition_penalty=1.2,
         )
 
-        generation_config.save_pretrained(training_args.output_dir)
+        generation_config.save_pretrained(output_dir)
 
-        # Push the final checkpoint to the HuggingFace Hub.
+        tracker.flush()
+        
+    # Resume codecarbon tracking.
+    tracker.stop()
+    logger.info("Training complete!")
+    i# Resume wandb tracking (only in the main process).
+    if accelerator.is_main_process:
+        if extra_args.wandb_token is not None:
+            wandb.finish()
+
+    # Upload the final emissions file to the Hub.
+    if training_args.push_to_hub and training_args.hub_token is not None:
+        if training_args.hub_model_id is not None:
+            
+            try:
+
+                api.upload_file(
+                    path_or_fileobj=f"{training_args.output_dir}/emissions_{accelerator.process_index}.csv",
+                    path_in_repo=f"emissions_{accelerator.process_index}.csv",
+                    repo_id=f"{training_args.hub_model_id}"
+                )
+
+                logger.info(f"Final emissions file pushed to the hub!")
+            
+            except Exception as e:
+                logger.warning(f"Error while uploading emissions file to Hub: {e}")
+    
+    accelerator.wait_for_everyone()
+
+    # Save the final checkpoint at the end of training and push it to the Hub.
+    if training_args.output_dir is not None:
+
+        output_dir = os.path.join(training_args.output_dir, "final-checkpoint")
+        accelerator.save_state(output_dir)
+        unwrapped_model = accelerator.unwrap_model(model)
+        unwrapped_model.save_pretrained(
+            output_dir, is_main_process=accelerator.is_main_process, save_function=accelerator.save
+        )
+        tokenizer.save_pretrained(output_dir)
+
+    if accelerator.is_main_process:
+
         if training_args.push_to_hub and training_args.hub_token is not None:
             if training_args.hub_model_id is not None:
-                
+
                 # Here we are going to push the model checkpoint to the HuggingFace Hub in a try-except block. 
                 # If the push to the Hub fails, we will log a warning.
                 try:
-
-                    api = HfApi(
-                        token=training_args.hub_token,
-                    )
-
-                    logger.info(f"""Ouput directory (`{training_args.output_dir}`) being uploaded to the hub.""")
-
-                    api.upload_folder(
-                        repo_id=training_args.hub_model_id,
-                        folder_path=training_args.output_dir,
-                    )
                     
-                    logger.info(f"Ouput directory (`{training_args.output_dir}`) uploaded to the hub!")
-                
+                    # Push the final checkpoint to the Hub.
+                    api.upload_folder(
+                        repo_id=f"{training_args.hub_model_id}",  
+                        folder_path=output_dir,
+                    )
+
+                    logger.info(f"Final model pushed to the hub!")
+                                
                 except Exception as e:
                     logger.warning(f"Error while uploading checkpoint to Hub: {e}")
-                    pass
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fine tune a language model on an instruction dataset.")

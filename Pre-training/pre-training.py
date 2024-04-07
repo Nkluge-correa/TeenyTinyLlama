@@ -734,6 +734,11 @@ def main(spec_file):
     # Resume codecarbon tracking.
     tracker.stop()
     logger.info("Training complete!")
+    
+    # Resume wandb tracking (only in the main process).
+    if accelerator.is_main_process:
+        if extra_args.wandb_token is not None:
+            wandb.finish()
 
     # Upload the final emissions file to the Hub.
     if training_args.push_to_hub and training_args.hub_token is not None:
@@ -753,12 +758,7 @@ def main(spec_file):
                 logger.warning(f"Error while uploading emissions file to Hub: {e}")
 
     accelerator.wait_for_everyone()
-
-    # Resume wandb tracking (only in the main process).
-    if accelerator.is_main_process:
-        if extra_args.wandb_token is not None:
-            wandb.finish()
-  
+        
     # Save the final checkpoint at the end of training and push it to the Hub.
     if training_args.output_dir is not None:
 
