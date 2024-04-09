@@ -1,21 +1,21 @@
 ---
-license: apache-2.0
-datasets:
-- nicholasKluge/Pt-Corpus-Instruct
 language:
 - pt
-metrics:
-- perplexity
+license: apache-2.0
 library_name: transformers
-pipeline_tag: text-generation
 tags:
 - text-generation-inference
+datasets:
+- nicholasKluge/Pt-Corpus-Instruct
+metrics:
+- perplexity
+pipeline_tag: text-generation
 widget:
-- text: "A PUCRS é uma universidade "
+- text: 'A PUCRS é uma universidade '
   example_title: Exemplo
-- text: "A muitos anos atrás, em uma galáxia muito distante, vivia uma raça de"
+- text: A muitos anos atrás, em uma galáxia muito distante, vivia uma raça de
   example_title: Exemplo
-- text: "Em meio a um escândalo, a frente parlamentar pediu ao Senador Silva para"
+- text: Em meio a um escândalo, a frente parlamentar pediu ao Senador Silva para
   example_title: Exemplo
 inference:
   parameters:
@@ -30,10 +30,157 @@ co2_eq_emissions:
   training_type: pre-training
   geographical_location: Germany
   hardware_used: NVIDIA A100-SXM4-40GB
+model-index:
+- name: TeenyTinyLlama-460m
+  results:
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: ENEM Challenge (No Images)
+      type: eduagarcia/enem_challenge
+      split: train
+      args:
+        num_few_shot: 3
+    metrics:
+    - type: acc
+      value: 20.15
+      name: accuracy
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: BLUEX (No Images)
+      type: eduagarcia-temp/BLUEX_without_images
+      split: train
+      args:
+        num_few_shot: 3
+    metrics:
+    - type: acc
+      value: 25.73
+      name: accuracy
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: OAB Exams
+      type: eduagarcia/oab_exams
+      split: train
+      args:
+        num_few_shot: 3
+    metrics:
+    - type: acc
+      value: 27.02
+      name: accuracy
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: Assin2 RTE
+      type: assin2
+      split: test
+      args:
+        num_few_shot: 15
+    metrics:
+    - type: f1_macro
+      value: 53.61
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: Assin2 STS
+      type: eduagarcia/portuguese_benchmark
+      split: test
+      args:
+        num_few_shot: 15
+    metrics:
+    - type: pearson
+      value: 13.0
+      name: pearson
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: FaQuAD NLI
+      type: ruanchaves/faquad-nli
+      split: test
+      args:
+        num_few_shot: 15
+    metrics:
+    - type: f1_macro
+      value: 46.41
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: HateBR Binary
+      type: ruanchaves/hatebr
+      split: test
+      args:
+        num_few_shot: 25
+    metrics:
+    - type: f1_macro
+      value: 33.59
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: PT Hate Speech Binary
+      type: hate_speech_portuguese
+      split: test
+      args:
+        num_few_shot: 25
+    metrics:
+    - type: f1_macro
+      value: 22.99
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: tweetSentBR
+      type: eduagarcia-temp/tweetsentbr
+      split: test
+      args:
+        num_few_shot: 25
+    metrics:
+    - type: f1_macro
+      value: 17.28
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-460m
+      name: Open Portuguese LLM Leaderboard
 ---
 # TeenyTinyLlama-460m
 
-<img src="../../img/460m-llama.png" alt="A curious llama exploring a mushroom forest." height="200">
+<img src="./logo.png" alt="A curious llama exploring a mushroom forest." height="200">
 
 ## Model Summary
 

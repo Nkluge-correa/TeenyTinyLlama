@@ -1,21 +1,21 @@
 ---
-license: apache-2.0
-datasets:
-- nicholasKluge/Pt-Corpus-Instruct
 language:
 - pt
-metrics:
-- perplexity
+license: apache-2.0
 library_name: transformers
-pipeline_tag: text-generation
 tags:
 - text-generation-inference
+datasets:
+- nicholasKluge/Pt-Corpus-Instruct
+metrics:
+- perplexity
+pipeline_tag: text-generation
 widget:
-- text: "A PUCRS é uma universidade "
+- text: 'A PUCRS é uma universidade '
   example_title: Exemplo
-- text: "A muitos anos atrás, em uma galáxia muito distante, vivia uma raça de"
+- text: A muitos anos atrás, em uma galáxia muito distante, vivia uma raça de
   example_title: Exemplo
-- text: "Em meio a um escândalo, a frente parlamentar pediu ao Senador Silva para"
+- text: Em meio a um escândalo, a frente parlamentar pediu ao Senador Silva para
   example_title: Exemplo
 inference:
   parameters:
@@ -30,10 +30,157 @@ co2_eq_emissions:
   training_type: pre-training
   geographical_location: Germany
   hardware_used: NVIDIA A100-SXM4-40GB
+model-index:
+- name: TeenyTinyLlama-160m
+  results:
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: ENEM Challenge (No Images)
+      type: eduagarcia/enem_challenge
+      split: train
+      args:
+        num_few_shot: 3
+    metrics:
+    - type: acc
+      value: 19.24
+      name: accuracy
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: BLUEX (No Images)
+      type: eduagarcia-temp/BLUEX_without_images
+      split: train
+      args:
+        num_few_shot: 3
+    metrics:
+    - type: acc
+      value: 23.09
+      name: accuracy
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: OAB Exams
+      type: eduagarcia/oab_exams
+      split: train
+      args:
+        num_few_shot: 3
+    metrics:
+    - type: acc
+      value: 22.37
+      name: accuracy
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: Assin2 RTE
+      type: assin2
+      split: test
+      args:
+        num_few_shot: 15
+    metrics:
+    - type: f1_macro
+      value: 53.97
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: Assin2 STS
+      type: eduagarcia/portuguese_benchmark
+      split: test
+      args:
+        num_few_shot: 15
+    metrics:
+    - type: pearson
+      value: 0.24
+      name: pearson
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: FaQuAD NLI
+      type: ruanchaves/faquad-nli
+      split: test
+      args:
+        num_few_shot: 15
+    metrics:
+    - type: f1_macro
+      value: 43.97
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: HateBR Binary
+      type: ruanchaves/hatebr
+      split: test
+      args:
+        num_few_shot: 25
+    metrics:
+    - type: f1_macro
+      value: 36.92
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: PT Hate Speech Binary
+      type: hate_speech_portuguese
+      split: test
+      args:
+        num_few_shot: 25
+    metrics:
+    - type: f1_macro
+      value: 42.63
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
+  - task:
+      type: text-generation
+      name: Text Generation
+    dataset:
+      name: tweetSentBR
+      type: eduagarcia-temp/tweetsentbr
+      split: test
+      args:
+        num_few_shot: 25
+    metrics:
+    - type: f1_macro
+      value: 11.39
+      name: f1-macro
+    source:
+      url: https://huggingface.co/spaces/eduagarcia/open_pt_llm_leaderboard?query=nicholasKluge/TeenyTinyLlama-160m
+      name: Open Portuguese LLM Leaderboard
 ---
 # TeenyTinyLlama-160m
 
-<img src="../../img/160m-llama.png" alt="A little llama wearing a mushroom hat and a monocle." height="200">
+<img src="./logo.png" alt="A little llama wearing a mushroom hat and a monocle." height="200">
 
 ## Model Summary
 
@@ -48,7 +195,7 @@ Read our preprint on [ArXiv](https://arxiv.org/abs/2401.16640).
 - **Context length:** 2048 tokens
 - **Dataset:** [Pt-Corpus Instruct](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct) (6.2B tokens)
 - **Language:** Portuguese
-- **Number of steps:** 458,000
+- **Number of steps:** 458,000 
 - **GPU:** 1 NVIDIA A100-SXM4-40GB
 - **Training time**: ~ 36 hours
 - **Emissions:** 5.6 KgCO2 (Germany)
@@ -156,7 +303,7 @@ During our training runs, both models showed consistent convergence. At no point
 
 ## Benchmarks
 
-Evaluations on English benchmarks were performed using the [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness) (by [EleutherAI](https://www.eleuther.ai/)). [Laiviet](https://github.com/laiviet/lm-evaluation-harness) translated the tasks from the LM-Evaluation-Harness we used. The results of models marked with an "*" were extracted from the [Open LLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard).
+Evaluations on benchmarks were performed using the [Language Model Evaluation Harness](https://github.com/EleutherAI/lm-evaluation-harness) (by [EleutherAI](https://www.eleuther.ai/)). [Laiviet](https://github.com/laiviet/lm-evaluation-harness) translated the tasks from the LM-Evaluation-Harness we used. The results of models marked with an "*" were extracted from the [Open LLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard).
 
 |                  | **ARC**   | **HellaSwag** | **MMLU**  | **TruthfulQA** | **Average** |
 |------------------|-----------|---------------|-----------|----------------|-------------|
