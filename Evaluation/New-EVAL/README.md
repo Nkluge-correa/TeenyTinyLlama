@@ -16,7 +16,7 @@ We performed the following evaluations using a [Portuguese implementation of the
 
 - [HateBR](https://arxiv.org/abs/2103.14972) (25-shot) - HateBR is the first large-scale expert annotated dataset of Brazilian Instagram comments for abusive language detection on the web and social media. The HateBR was collected from politicians' Brazilian Instagram comments and manually annotated by specialists. It comprises 7,000 documents annotated with a binary classification (offensive versus non-offensive comments). - Data sources:  [[1]](https://huggingface.co/datasets/eduagarcia/portuguese_benchmark),  [[2]](https://github.com/franciellevargas/HateBR),  [[3]](https://huggingface.co/datasets/ruanchaves/hatebr). Metric - F1-macro.
 
-The notebook used to run these evaluations is the [`lm-evaluation-harness-pt-br.ipynb`](./lm-evaluation-harness-pt-br.ipynb). Available on Colab. Full results are stored in the [results folder](./results/).
+The notebook used to run these evaluations is the [`lm-evaluation-harness-pt-br.ipynb`](./lm-evaluation-harness-pt-br.ipynb). Available on Colab.
 
 <a href="https://colab.research.google.com/drive/1m6Oqey4P9ShYTO62yRq7wrM_eEsvFJ9D" target="_blank">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab">
