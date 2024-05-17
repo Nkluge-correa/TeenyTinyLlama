@@ -2,7 +2,7 @@
 
 # TeenyTinyLlama: open-source _tiny_ language models trained in Brazilian Portuguese
 
-[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](https://arxiv.org/abs/2401.16640) | [Demo](https://huggingface.co/spaces/nicholasKluge/TeenyTinyLlama-Chat)
+[Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) | [Preprint](https://arxiv.org/abs/2401.16640) | [Paper](https://www.sciencedirect.com/science/article/pii/S2666827024000343?via%3Dihub) | [Demo](https://huggingface.co/spaces/nicholasKluge/TeenyTinyLlama-Chat)
 
 </div>
 <p align="center">
@@ -62,14 +62,15 @@ In the `img` folder, you will find a subfolder named `logs and plots`. In it, yo
 ## Cite as 🤗
 
 ```latex
-
 @misc{correa24ttllama,
+  doi = {10.1016/j.mlwa.2024.100558},
+  url = {https://www.sciencedirect.com/science/article/pii/S2666827024000343},
   title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
   author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
-  journal={arXiv preprint arXiv:2401.16640},
+  journal={Machine Learning With Applications},
+  publisher = {Springer},
   year={2024}
 }
-
 ```
 
 ## Funding
