@@ -16,7 +16,7 @@ tags:
 - assistant
 inference: false
 co2_eq_emissions:
-  emissions: 2.53
+  emissions: 2530
   source: CodeCarbon
   training_type: fine-tuning
   geographical_location: United States of America

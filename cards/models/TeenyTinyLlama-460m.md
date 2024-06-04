@@ -25,7 +25,7 @@ inference:
     top_p: 0.2
     max_new_tokens: 150
 co2_eq_emissions:
-  emissions: 41.1
+  emissions: 41100
   source: CodeCarbon
   training_type: pre-training
   geographical_location: Germany
