@@ -186,7 +186,7 @@ model-index:
 
 Large language models (LLMs) have significantly advanced natural language processing, but their progress has yet to be equal across languages. While most LLMs are trained in high-resource languages like English, multilingual models generally underperform monolingual ones. Additionally, aspects of their multilingual foundation sometimes restrict the byproducts they produce, like computational demands and licensing regimes. Hence, we developed the _TeenyTinyLlama_ pair: two compact models for Brazilian Portuguese text generation.
 
-Read our preprint on [ArXiv](https://arxiv.org/abs/2401.16640).
+Read our preprint on [Article](https://www.sciencedirect.com/science/article/pii/S2666827024000343).
 
 ## Details
 
@@ -355,7 +355,6 @@ All the shown results are the higher accuracy scores achieved on the respective 
 ## Cite as 🤗
 
 ```latex
-
 @misc{correa24ttllama,
   title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
   author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
@@ -363,6 +362,15 @@ All the shown results are the higher accuracy scores achieved on the respective 
   year={2024}
 }
 
+@misc{correa24ttllama,
+  doi = {10.1016/j.mlwa.2024.100558},
+  url = {https://www.sciencedirect.com/science/article/pii/S2666827024000343},
+  title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
+  author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
+  journal={Machine Learning With Applications},
+  publisher = {Springer},
+  year={2024}
+}
 ```
 
 ## Funding

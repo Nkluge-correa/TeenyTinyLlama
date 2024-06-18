@@ -61,8 +61,8 @@ size_categories:
 
 - **Homepage:** https://nkluge-correa.github.io/TeenyTinyLlama/
 - **Repository:** https://github.com/Nkluge-correa/TeenyTinyLlama
-- **Paper:** [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640)
-- **Point of Contact:** [AIRES at PUCRS](mailto:nicholas@airespucrs.org)
+- **Paper:** [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://www.sciencedirect.com/science/article/pii/S2666827024000343)
+- **Point of Contact:** [Nk-correa](mailto:nicholas@airespucrs.org)
 
 ### Dataset Summary
 
@@ -114,7 +114,7 @@ dataset = load_dataset("nicholasKluge/Pt-Corpus-Instruct", split='train', stream
 
 ### Curation Rationale
 
-This dataset was developed as part of the [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://arxiv.org/abs/2401.16640) paper. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits.
+This dataset was developed as part of the [TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://www.sciencedirect.com/science/article/pii/S2666827024000343) paper. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits.
 
 ### Source Data
 
@@ -189,7 +189,6 @@ The following datasets (_only training splits are a part of the corpus_) and res
 ### Citation Information
 
 ```latex
-
 @misc{correa24ttllama,
   title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
   author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
@@ -197,6 +196,15 @@ The following datasets (_only training splits are a part of the corpus_) and res
   year={2024}
 }
 
+@misc{correa24ttllama,
+  doi = {10.1016/j.mlwa.2024.100558},
+  url = {https://www.sciencedirect.com/science/article/pii/S2666827024000343},
+  title = {TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese},
+  author = {Corr{\^e}a, Nicholas Kluge and Falk, Sophia and Fatimah, Shiza and Sen, Aniket and De Oliveira, Nythamar},
+  journal={Machine Learning With Applications},
+  publisher = {Springer},
+  year={2024}
+}
 ```
 
 ### Contributions

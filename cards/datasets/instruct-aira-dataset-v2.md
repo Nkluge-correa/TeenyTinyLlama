@@ -72,7 +72,8 @@ configs:
 ## Dataset Description
 
 - **Repository:** https://github.com/Nkluge-correa/Aira
-- **Point of Contact:** [AIRES at PUCRS](nicholas@airespucrs.org)
+- **Point of Contact:** [Nk-Correa](nicholas@airespucrs.org)
+- **Paper:** [Dynamic Normativity: Necessary and Sufficient Conditions for Value Alignment](https://arxiv.org/abs/2406.11039)
 
 ### Dataset Summary
 
@@ -126,7 +127,7 @@ dataset = load_dataset("nicholasKluge/instruct-aira-dataset-v2", split='portugue
 
 ### Curation Rationale
 
-This dataset was developed are part of [Nicholas Kluge's](https://nkluge-correa.github.io/) doctoral dissertation, "_Dynamic Normativity: Necessary and Sufficient Conditions for Value Alignment._" This research was funded by CNPq (Fundação de Amparo à Pesquisa do Estado do Rio Grande do Sul), FAPERGS (Fundação de Amparo à Pesquisa do Estado do Rio Grande do Sul), and DAAD (Deutscher Akademischer Austauschdienst), as part of a doctoral research project tied to Philosophy departments of PUCRS (Pontifícia Universidade Católica do Rio Grande do Sul) and the University of Bonn.
+This dataset was developed are part of [Nicholas Kluge's](https://nkluge-correa.github.io/) doctoral dissertation, "_[Dynamic Normativity: Necessary and Sufficient Conditions for Value Alignment](https://arxiv.org/abs/2406.11039)_". This research was funded by CNPq (Fundação de Amparo à Pesquisa do Estado do Rio Grande do Sul), FAPERGS (Fundação de Amparo à Pesquisa do Estado do Rio Grande do Sul), and DAAD (Deutscher Akademischer Austauschdienst), as part of a doctoral research project tied to Philosophy departments of PUCRS (Pontifícia Universidade Católica do Rio Grande do Sul) and the University of Bonn.
 
 ### Source Data
 
@@ -179,7 +180,6 @@ This dataset is licensed under the [Apache License, version 2.0](LICENSE).
 ### Citation Information
 
 ```latex
-
 @misc{nicholas22aira,
   doi = {10.5281/zenodo.6989727},
   url = {https://github.com/Nkluge-correa/Aira},
@@ -190,6 +190,12 @@ This dataset is licensed under the [Apache License, version 2.0](LICENSE).
   journal = {GitHub repository},
 }
 
+@phdthesis{kluge2024dynamic,
+  title={Dynamic Normativity},
+  author={Kluge Corr{\^e}a, Nicholas},
+  year={2024},
+  school={Universit{\"a}ts-und Landesbibliothek Bonn}
+}
 ```
 
 ### Contributions
