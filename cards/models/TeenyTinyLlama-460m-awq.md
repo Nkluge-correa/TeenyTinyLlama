@@ -41,7 +41,7 @@ co2_eq_emissions:
 
 Large language models (LLMs) have significantly advanced natural language processing, but their progress has yet to be equal across languages. While most LLMs are trained in high-resource languages like English, multilingual models generally underperform monolingual ones. Additionally, aspects of their multilingual foundation sometimes restrict the byproducts they produce, like computational demands and licensing regimes. Hence, we developed the _TeenyTinyLlama_ pair: two compact models for Brazilian Portuguese text generation.
 
-Read our preprint on [Article](https://www.sciencedirect.com/science/article/pii/S2666827024000343).
+Read our article [here](https://www.sciencedirect.com/science/article/pii/S2666827024000343).
 
 ## Details
 
