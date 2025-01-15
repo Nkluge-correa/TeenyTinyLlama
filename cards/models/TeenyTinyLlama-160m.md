@@ -20,9 +20,9 @@ widget:
 inference:
   parameters:
     repetition_penalty: 1.2
-    temperature: 0.2
-    top_k: 20
-    top_p: 0.2
+    temperature: 0.1
+    top_k: 50
+    top_p: 1.0
     max_new_tokens: 150
 co2_eq_emissions:
   emissions: 5600
@@ -180,7 +180,7 @@ model-index:
 ---
 # TeenyTinyLlama-160m
 
-<img src="./logo.png" alt="A little llama wearing a mushroom hat and a monocle." height="200">
+<img src="../../img/160m-llama.png" alt="A little llama wearing a mushroom hat and a monocle." height="200">
 
 ## Model Summary
 

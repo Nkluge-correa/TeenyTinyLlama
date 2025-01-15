@@ -20,9 +20,9 @@ widget:
 inference:
   parameters:
     repetition_penalty: 1.2
-    temperature: 0.2
-    top_k: 20
-    top_p: 0.2
+    temperature: 0.1
+    top_k: 50
+    top_p: 1.0
     max_new_tokens: 150
 co2_eq_emissions:
   emissions: 41100

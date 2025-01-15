@@ -30,12 +30,10 @@ widget:
 inference:
   parameters:
     repetition_penalty: 1.2
-    temperature: 0.2
-    top_k: 30
-    top_p: 0.3
-    max_new_tokens: 200
-    length_penalty: 0.3
-    early_stopping: true
+    temperature: 0.1
+    top_k: 50
+    top_p: 1.0
+    max_new_tokens: 150
 co2_eq_emissions:
   emissions: 2530
   source: CodeCarbon
