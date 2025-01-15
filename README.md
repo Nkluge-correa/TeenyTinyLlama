@@ -9,6 +9,12 @@
         <img src="./img/combined-logo.png" alt="An illustration of two adorable alpacas, one brown and the other orange, standing on a large red and white mushroom. The brown alpaca is wearing a monocle and the orange one is sporting a small hat. The mushroom is surrounded by grass and smaller mushrooms at the base." height="400">
 </p>
 
+## Tucano is the continuation of TeenyTinyLlama! 🚀
+
+Explore our new series of [Tucano models](https://nkluge-correa.github.io/Tucano/), which outperform the TeenyTinyLlama pair across every metric.
+
+## Abstract
+
 Large language models (LLMs) have significantly advanced natural language processing, but their progress has yet to be equal across languages. While most LLMs are trained in high-resource languages like English, multilingual models generally underperform monolingual ones. Additionally, aspects of their multilingual foundation sometimes restrict the byproducts they produce, like computational demands and licensing regimes. In this study, we document the development of open-foundation models tailored for use in low-resource settings, their limitations, and their benefits. This is the _TeenyTinyLlama_ pair: two compact models for Brazilian Portuguese text generation. We release them under the permissive Apache 2.0 license on [GitHub](https://github.com/Nkluge-correa/TeenyTinyLlama) and [Hugging Face](https://huggingface.co/collections/nicholasKluge/teenytinyllama-6582ea8129e72d1ea4d384f1) for community use and further development.
 
 ## Intended Uses
