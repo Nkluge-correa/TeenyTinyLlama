@@ -1,42 +1,42 @@
 ---
 dataset_info:
   features:
-  - name: input_ids
-    sequence: int32
-  - name: attention_mask
-    sequence: int8
-  - name: labels
-    sequence: int64
+    - name: input_ids
+      sequence: int32
+    - name: attention_mask
+      sequence: int8
+    - name: labels
+      sequence: int64
   splits:
-  - name: train
-    num_bytes: 48793769228.0
-    num_examples: 1831873
-  - name: test
-    num_bytes: 479448000.0
-    num_examples: 18000
-  download_size: 14600379883
-  dataset_size: 49273217228.0
+    - name: train
+      num_bytes: 80805366840.0
+      num_examples: 3033690
+    - name: test
+      num_bytes: 799080000.0
+      num_examples: 30000
+  download_size: 24242436009
+  dataset_size: 81604446840.0
 configs:
-- config_name: default
-  data_files:
-  - split: train
-    path: data/train-*
-  - split: test
-    path: data/test
+  - config_name: default
+    data_files:
+      - split: train
+        path: data/train-*
+      - split: test
+        path: data/test-*
 license: other
 task_categories:
-- text-generation
+  - text-generation
 language:
-- pt
+  - pt
 tags:
-- portuguese
-- language-modeling
-pretty_name: Pt-Corpus Instruct tokenized small
+  - portuguese
+  - language-modeling
+pretty_name: Pt-Corpus Instruct tokenized
 size_categories:
-- 1M<n<10M
+  - 1M<n<10M
 ---
 
-# Portuguese-Corpus Instruct (tokenized small)
+# Portuguese-Corpus Instruct (tokenized)
 
 ## Table of Contents
 
@@ -62,7 +62,7 @@ size_categories:
 
 ### Dataset Summary
 
-This repository has a tokenized version (using the [TeenyTinyLlama tokenizer](https://huggingface.co/nicholasKluge/TeenyTinyLlama-460m)) of a small subset (3.7B tokens) of the [Pt-Corpus Instruct dataset](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct). All sequences are 2048 tokens long. All sequences are 2048 tokens long. This dataset was used in "_[TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://www.sciencedirect.com/science/article/pii/S2666827024000343)_".
+This repository has a tokenized version (using the [TeenyTinyLlama tokenizer](https://huggingface.co/nicholasKluge/TeenyTinyLlama-460m)) of the [Portuguese-Corpus Instruct dataset](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct). All sequences are 2048 tokens long. All sequences are 2048 tokens long. This dataset was used in "_[TeenyTinyLlama: open-source tiny language models trained in Brazilian Portuguese](https://www.sciencedirect.com/science/article/pii/S2666827024000343)_".
 
 For more information, see the [original dataset card](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct).
 
@@ -87,20 +87,20 @@ The dataset consists of the following features:
   "input_ids": [ 1026, 1531, 1009, 8067,...],
   "attention_mask": [1, 1, 1, 1, ...],
   "labels": [ 1026, 1531, 1009, 8067,...]
-}  
+}
 ```
 
 ### Data Splits
 
-Available splits are `train` (~ 1.8M) and `test` (18K).
+Available splits are `train` (~ 3M) and `test` (30K).
 
 ```python
 from datasets import load_dataset
 
-dataset = load_dataset("nicholasKluge/Pt-Corpus-Instruct-tokenized-small", split='train')
+dataset = load_dataset("nicholasKluge/Pt-Corpus-Instruct-tokenized-large", split='train')
 
 # If you don't want to download the entire dataset, set streaming to `True`
-dataset = load_dataset("nicholasKluge/Pt-Corpus-Instruct-tokenized-small", split='train', streaming=True)
+dataset = load_dataset("nicholasKluge/Pt-Corpus-Instruct-tokenized-large", split='train', streaming=True)
 
 ```
 
