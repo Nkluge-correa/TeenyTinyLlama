@@ -19,7 +19,7 @@ python train-sentencepiece.py \
 These are the arguments you pass to this script:
 
 | Argument              | Description                                                                                                                                                                          |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `dataset_name`        | The name of a Hugging Face dataset to use as training data. If you want to make a small test, we recommend [NeelNanda/pile-10k](https://huggingface.co/datasets/NeelNanda/pile-10k). |
 | `dataset_split`       | The split of the dataset to use.                                                                                                                                                     |
 | `hub_token`           | Your API key for the HUB (important if you want to use models or datasets that require authenticated access).                                                                        |
@@ -36,8 +36,7 @@ Before you start training the models, you need to pre-process your dataset (toke
 - [Pt-Corpus](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus) (raw text).
 - [Pt-Corpus-Instruct](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct) (raw text).
 - [Pt-Corpus-tokenized](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-tokenized) (tokenized - 4.1B tokens).
-- [Pt-Corpus-Instruct-tokenized-small](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct-tokenized-small) (tokenized - 3.7B tokens).
-- [Pt-Corpus-Instruct-tokenized-large](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct-tokenized-large) (tokenized - 6.2B tokens).
+- [Pt-Corpus-Instruct-tokenized](https://huggingface.co/datasets/nicholasKluge/Pt-Corpus-Instruct-tokenized) (tokenized - 6.2B tokens).
 
 To speed up experiments, the `pre-training.py` script expects you to set a folder path where the dataset will be stored locally. The dataset folder must contain a list of parquet files, and you can achieve this by simply cloning the dataset from the hub to a local directory:
 
@@ -60,7 +59,7 @@ You are ready to start training if you have set up the dataset loading correctly
 These are the arguments you can modify in the specification file:
 
 | Section            | Argument                      | Description                                                                                                                                                                                     |
-|--------------------|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------ | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Model Arguments    | `model_to_train`              | The pre-trained model to use for training.                                                                                                                                                      |
 |                    | `tokenizer_name`              | The name of the tokenizer associated with the pre-trained model.                                                                                                                                |
 |                    | `model_id`                    | Identifier for the model. We use this to differentiate runs in the W&B dashboard.                                                                                                               |
@@ -109,7 +108,7 @@ These are the arguments you can modify in the specification file:
 |                    | `push_to_hub`                 | Whether to push the model checkpoints to the Hugging Face Hub.                                                                                                                                  |
 |                    | `resume_from_checkpoint`      | Path to a checkpoint file in case you are resuming training. The folder must contain all states used by the Accelerator.                                                                        |
 |                    | `hub_model_id`                | Identifier for the model on the Hugging Face Hub.                                                                                                                                               |
-|                    | `hub_token`                   | API key for your Hugging Face account Hub.                                                                                                                                                         |
+|                    | `hub_token`                   | API key for your Hugging Face account Hub.                                                                                                                                                      |
 | Extra Arguments    | `wandb_token`                 | API key for Weights & Biases (WandB) integration.                                                                                                                                               |
 |                    | `logger_name`                 | Name for the logger.                                                                                                                                                                            |
 |                    | `wandb_log_steps`             | Number of steps between logging to WandB.                                                                                                                                                       |
