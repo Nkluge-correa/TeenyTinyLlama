@@ -9,9 +9,7 @@
         <img src="./img/combined-logo.png" alt="An illustration of two adorable alpacas, one brown and the other orange, standing on a large red and white mushroom. The brown alpaca is wearing a monocle and the orange one is sporting a small hat. The mushroom is surrounded by grass and smaller mushrooms at the base." height="400">
 </p>
 
-## Tucano is the continuation of TeenyTinyLlama! 🚀
-
-Explore our new series of [Tucano models](https://nkluge-correa.github.io/Tucano/), which outperform the TeenyTinyLlama pair across every metric.
+**THIS PROJECT IS ARCHIVED. TO SEE THE EVOLUTION OF TEENYTINYLLAMA, CHECK THE POLYGL0T PROJECT: https://github.com/Polygl0t**
 
 ## Abstract
 
